@@ -21,7 +21,7 @@
 	<link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/login.css">
 	<!--===============================================================================================-->
 </head>
 
@@ -30,33 +30,24 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
-				<form class="login100-form validate-form flex-sb flex-w">
+				<form class="login100-form validate-form flex-sb flex-w" method="POST">
 					<span class="login100-form-title p-b-51">
 						Login
 					</span>
 
 					<div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-						<input class="input100" type="text" name="username" placeholder="Username">
+						<input class="input100" type="text" id="username" placeholder="Username">
 						<span class="focus-input100"></span>
 					</div>
 
 
 					<div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" id="password" placeholder="Password">
 						<span class="focus-input100"></span>
 					</div>
 
-					<div class="flex-sb-m w-full p-t-3 p-b-24">
-						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								Remember me
-							</label>
-						</div>
-					</div>
-
 					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn">
+						<button class="login100-form-btn" type="button" id="login">
 							Login
 						</button>
 					</div>
@@ -65,7 +56,6 @@
 			</div>
 		</div>
 	</div>
-
 
 	<div id="dropDownSelect1"></div>
 
@@ -84,7 +74,7 @@
 	<!--===============================================================================================-->
 	<script src="/vendor/countdowntime/countdowntime.js"></script>
 	<!--===============================================================================================-->
-	<script src="/js/main.js"></script>
+	<script src="/js/login.js"></script>
 
 </body>
 
