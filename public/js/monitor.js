@@ -4,7 +4,7 @@ var port = 8080;
 var socket = io.connect(host + ':' + port);
 
 var input = $('.my-btn');
-for (var i = 0; i < input.length; i++) {
+for (let i = 0; i < input.length; i++) {
     $(input[i]).on('click', function () {
         socket.emit('buttonCmd', {
             command: $(this).val()
@@ -28,3 +28,8 @@ for (var i = 0; i < input.length; i++) {
 
     });
 }
+
+$('.btn.btn-danger').on('click', function () {
+    // $('.form-control').append('logout ');
+    window.location = '/logout';
+});

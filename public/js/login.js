@@ -54,7 +54,9 @@ $('.login100-form-btn').on('click', function () {
         success: function (response) {
             if (response.status == 'granted') {
                 alert('Đăng nhập thành công');
-                window.location = '/management';
+                setCookie("doorgate", response.id, 365);
+                // window.location = '/management';
+                window.location = '/monitor';
             } else {
                 alert('Đăng nhập thất bại');
                 $(input[0]).val("");
@@ -63,3 +65,10 @@ $('.login100-form-btn').on('click', function () {
         }
     });
 });
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}

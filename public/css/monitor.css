@@ -1,13 +1,13 @@
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 @font-face {
-  font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+  font-family: Ubuntu-Regular;
+  src: url('../fonts/ubuntu/Ubuntu-Regular.ttf'); 
 }
 
 @font-face {
-  font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
+  font-family: Ubuntu-Bold;
+  src: url('../fonts/ubuntu/Ubuntu-Bold.ttf'); 
 }
 
 /*//////////////////////////////////////////////////////////////////
