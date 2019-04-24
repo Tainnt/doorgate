@@ -9,8 +9,11 @@ let sess;
 
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
+var router = require('./router');
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
 app.use(bodyParser.json())
 
 app.use(cookieParser());
@@ -27,24 +30,13 @@ server.listen(8080, function () {
     console.log('Server is running at port: 8080!')
 });
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/views/login.html');
-});
+app.use('/', router);
 
-app.get('/management', function (req, res) {
-    res.sendFile(__dirname + '/views/management.html');
-});
+io.on("connection", function (socket) {
+    console.log('-----------------Connected id: ' + socket.id + '--------------------');
+    socket.on('buttonCmd', function (data) {
+        console.log(data.command);
 
-app.post('/login', function (req, res) {
-
-    console.log(req.body);
-    if (req.body.username == 'a' && req.body.password == 'a') {
-        res.send({
-            status: 'granted'
-        });
-    } else {
-        res.send({
-            status: 'denied'
-        });
-    }
+        // socket.emit("cmdToEsp", { arr: gamepadArr, ss: checkID, id: userGamepad });
+    });
 });
