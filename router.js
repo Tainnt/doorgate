@@ -1,9 +1,8 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    // sess = req.session;
-    // console.log('req.session: ' + req.sessionID);
+    // console.log('req.session.id: ' + req.sessionID);
     if (req.session.pageIndex == 'monitor')
         res.redirect('/monitor');
     else
@@ -11,13 +10,11 @@ router.get('/', function (req, res) {
 });
 
 router.get('/management', function (req, res) {
-    // sess = req.session;    
     res.sendFile(__dirname + '/views/management.html');
 });
 
 router.get('/monitor', function (req, res) {
-    // sess = req.session;
-    // console.log('req.session: ' + req.session.id);
+    // console.log('req.session.id: ' + req.session.id);
     if (req.session.pageIndex == 'monitor')
         res.sendFile(__dirname + '/views/monitor.html');
     else
@@ -25,8 +22,7 @@ router.get('/monitor', function (req, res) {
 });
 
 router.get('/logout', function (req, res) {
-    // sess = req.session;
-    // console.log('req.session: ' + req.session.id);
+    // console.log('req.session.id: ' + req.session.id);
     req.session.pageIndex = 'login';
     res.redirect('/');
 });
@@ -47,4 +43,4 @@ router.post('/login', function (req, res) {
     }
 });
 
-module.exports.router = router;
+module.exports = router;
