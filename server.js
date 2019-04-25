@@ -31,6 +31,9 @@ io.on('connection', function (socket) {
     console.log('-----------------Connected id: ' + socket.id + '--------------------');
     socket.on('buttonCmd', function (data) {
         console.log(data.command);
-        socket.emit("cmdToEsp", { command: data.command });
+        io.sockets.emit("cmdToEsp", data.command );
+    });
+    socket.on('uidTag', function (data) {
+        console.log(data);
     });
 });
