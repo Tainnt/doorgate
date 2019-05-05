@@ -7,7 +7,7 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var router = require('./router');
-var db = require('./database');
+// var db = require('./database');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
@@ -32,9 +32,9 @@ server.listen(8080, function () {
 io.on('connection', function (socket) {
     console.log('-----------------Connected id: ' + socket.id + '--------------------');
     socket.on('buttonCmd', function (data) {
-        db.insertTag('12345678');
+        // db.insertTag('12345678');
         console.log(data.command);
-        io.emit("cmdToEsp", data.command);       
+        io.emit("cmdToEsp", data.command);
     });
     socket.on('readTag', function (data) {
         console.log('read tag: ' + data.uid);
