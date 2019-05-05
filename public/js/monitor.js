@@ -33,3 +33,7 @@ $('.btn.btn-danger').on('click', function () {
     // $('.form-control').append('logout ');
     window.location = '/logout';
 });
+
+socket.on('updateMonitor', function (data) {
+    $('.form-control').append(data.text + '\n')
+});

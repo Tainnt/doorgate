@@ -9,13 +9,14 @@
   "author": "Men",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "cookie-parser": "^1.4.3",
+    "alarm": "^2.0.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
     "cookies": "^0.7.3",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
-    "mysql": "^2.16.0",
-    "nodemon": "^1.18.11",
-    "socket.io": "^2.1.1"
+    "mysql": "^2.17.1",
+    "nodemon": "^1.19.0",
+    "socket.io": "^2.2.0"
   }
 }

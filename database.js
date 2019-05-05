@@ -8,43 +8,51 @@ var mysql = require('mysql');
 // });
 
 var pool = mysql.createConnection({
-    host: 'sql12.freemysqlhosting.net',
-    user: 'sql12270334',
-    password: 'fbws2QvVig',
-    database: 'sql12270334',
+    host: 'doorgate.tk',
+    user: 'test',
+    password: 'testing',
+    database: 'computerized_nhatro',
 });
 
 module.exports = {
-    insert: function (name, pass) {
-        var sql = 'INSERT INTO player(username,password) VALUES (?,?)';
-        pool.query(sql, [name, pass], function (err) {
+    insertTag: function (rfid) {
+        var sql = 'INSERT INTO tenants(tenant_rf_id) VALUES (?)';
+        pool.query(sql, [rfid], function (err) {
             if (err)
                 throw err;
-            console.log('Insert successful');
+            console.log('Insert tag successful');
         });
     },
+    // insert: function (name, pass) {
+    //     var sql = 'INSERT INTO player(username,password) VALUES (?,?)';
+    //     pool.query(sql, [name, pass], function (err) {
+    //         if (err)
+    //             throw err;
+    //         console.log('Insert successful');
+    //     });
+    // },
 
-    delete: function (name) {
+    deleteTag: function (rfid) {
         var sql = 'DELETE FROM player WHERE username = ?';
-        pool.query(sql, [name], function (err) {
+        pool.query(sql, [rfid], function (err) {
             if (err)
                 throw err;
-            console.log('Delete successful');
+            console.log('Delete tag successful');
         });
     },
 
-    update: function (name, pass) {
+    updateTag: function (newRfid, oldRfid) {
         var sql = 'UPDATE player SET password = ? WHERE username = ?';
-        pool.query(sql, [pass, name], function (err) {
+        pool.query(sql, [newRfid, oldRfid], function (err) {
             if (err)
                 throw err;
-            console.log('Update successful');
+            console.log('Update tag successful');
         });
     },
 
-    find: function (name, callback) {
+    findTag: function (rfid, callback) {
         var sql = 'SELECT id FROM player WHERE username= ?';
-        pool.query(sql, [name], function (err, result, fields) {
+        pool.query(sql, [rfid], function (err, result, fields) {
             if (err)
                 throw err;
             if (result[0] == null) {
@@ -55,9 +63,9 @@ module.exports = {
         });
     },
 
-    validate: function (name, pass, callback) {
+    validateTag: function (rfid, callback) {
         var sql = 'SELECT id FROM player WHERE username= ? AND password= ?';
-        pool.query(sql, [name, pass], function (err, result, fields) {
+        pool.query(sql, [rfid], function (err, result, fields) {
             if (err)
                 throw err;
             if (result[0] == null) {
@@ -65,6 +73,15 @@ module.exports = {
             } else {
                 callback(true);
             }
+        });
+    },
+
+    updateDoorState: function (state, callback) {
+        var sql = 'UPDATE door SET state = ? WHERE id = 1';
+        pool.query(sql, [state], function (err, result, fields) {
+            if (err)
+                throw err;
+            console.log('Update door state successful');
         });
     },
 };
