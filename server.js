@@ -7,7 +7,7 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var router = require('./router');
-// var db = require('./database');
+var db = require('./database');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
@@ -32,27 +32,51 @@ server.listen(8080, function () {
 io.on('connection', function (socket) {
     console.log('-----------------Connected id: ' + socket.id + '--------------------');
     socket.on('buttonCmd', function (data) {
-        // db.insertTag('12345678');
         console.log(data.command);
-        io.emit("cmdToEsp", data.command);
+        io.emit('cmdToEsp', data.command);
     });
+
     socket.on('readTag', function (data) {
         console.log('read tag: ' + data.uid);
-        io.emit("updateMonitor", {
-            text: 'read tag: ' + data.uid
+        db.validateTag(data.uid, function (isCorrect) {
+            if (isCorrect)
+                io.emit('updateMonitor', {
+                    text: data.uid + ' correct'
+                });
+            else
+                io.emit('updateMonitor', {
+                    text: data.uid + ' incorrect'
+                });
         });
     });
+
     socket.on('insertTag', function (data) {
         console.log('insert tag: ' + data.uid);
-        io.emit("updateMonitor", {
+        db.insertTag(data.uid);
+        io.emit('updateMonitor', {
             text: 'insert tag: ' + data.uid
         });
     });
-});
 
-var date = new Date();
-date.setHours(14, 41, 0, 0);
+    socket.on('alarm', function (data) {
+        var date = new Date();
+        date.setHours(14, 41, 0, 0);
+        alarm(date, function () {
+            console.log('alarm callback');
+        });
+    });
 
-alarm(date, function () {
-    console.log('Hello, world!');
+    // socket.on('test', function (data) {
+    //     // db.insertTag('12345678');
+    //     db.validateTag(data.content, function (isCorrect) {
+    //         if (isCorrect)
+    //             io.emit('updateMonitor', {
+    //                 text: 'correct'
+    //             });
+    //         else
+    //             io.emit('updateMonitor', {
+    //                 text: 'incorrect'
+    //             });
+    //     });
+    // });
 });

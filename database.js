@@ -1,22 +1,22 @@
 var mysql = require('mysql');
 
-// var pool = mysql.createConnection({
-//     host: 'db4free.net',
-//     user: 'tainnt',
-//     password: '12345678',
-//     database: 'battle_ship',
-// });
-
 var pool = mysql.createConnection({
-    host: 'doorgate.tk',
-    user: 'test',
-    password: 'testing',
-    database: 'computerized_nhatro',
+    host: 'db4free.net',
+    user: 'tainnt',
+    password: '123454321',
+    database: 'doorgate',
 });
+
+// var pool = mysql.createConnection({
+//     host: 'doorgate.tk',
+//     user: 'test',
+//     password: 'testing',
+//     database: 'computerized_nhatro',
+// });
 
 module.exports = {
     insertTag: function (rfid) {
-        var sql = 'INSERT INTO tenants(tenant_rf_id) VALUES (?)';
+        var sql = 'INSERT INTO rfid_tenant(rfid) VALUES (?)';
         pool.query(sql, [rfid], function (err) {
             if (err)
                 throw err;
@@ -64,7 +64,7 @@ module.exports = {
     },
 
     validateTag: function (rfid, callback) {
-        var sql = 'SELECT id FROM player WHERE username= ? AND password= ?';
+        var sql = 'SELECT id FROM rfid_tenant WHERE rfid = ?';
         pool.query(sql, [rfid], function (err, result, fields) {
             if (err)
                 throw err;
