@@ -76,12 +76,22 @@ module.exports = {
         });
     },
 
-    updateDoorState: function (state, callback) {
-        var sql = 'UPDATE door SET state = ? WHERE id = 1';
-        pool.query(sql, [state], function (err, result, fields) {
+    updateDoorState: function (doorState, callback) {
+        var sql = 'UPDATE door_info SET state = ? WHERE id = 1';
+        pool.query(sql, [doorState], function (err, result, fields) {
             if (err)
                 throw err;
             console.log('Update door state successful');
         });
+    },
+
+    updateOpenTime: function (openTime) {
+        var sql = 'UPDATE door_info SET open_time = ? WHERE id = 1';
+        pool.query(sql, [openTime]);
+    },
+
+    updateCloseTime: function (closeTime) {
+        var sql = 'UPDATE door SET close_time = ? WHERE id = 1';
+        pool.query(sql, [closeTime]);
     },
 };

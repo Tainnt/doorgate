@@ -14,11 +14,13 @@
 <body>
 	<div class="container-fluid ">
 		<div class="row">
-			<label class="col-md-10">CONSOLE</label>
+			<label class="col-md-10 text-left"> DOOR STATE: 
+				<label id="doorState">CLOSE</label>
+			</label>
 			<button type="button" class="col-md-2 btn btn-danger" value="logout">Logout</button>
 		</div>
 	</div>
-	<textarea class="form-control" rows="7" disabled></textarea>
+	<textarea class="form-control" rows="3" disabled></textarea>
 	<div class="container-fluid">
 		<div class="row">
 			<button type="button" class="col-md-4 my-btn" value="open">Open</button>
@@ -26,6 +28,22 @@
 			<button type="button" class="col-md-4 my-btn" value="stop">Stop</button>
 		</div>
 	</div>
+	<div class="col-md-4 container-fluid">
+		<div class="input-group">
+			<input type="number" class="form-control" placeholder="Hour" id="hourOpen">
+			<input type="number" class="form-control" placeholder="Minute" id="minuteOpen">
+			<button type="button" class="col-md-4 my-btn" value="setOpenTime">Set time to open</button>
+			
+		</div>
+	</div>
+	<div class="col-md-4 container-fluid">
+		<div class="input-group">
+				<input type="number" class="form-control" placeholder="Hour" id="hourClose">
+				<input type="number" class="form-control" placeholder="Minute" id="minuteClose">
+				<button type="button" class="col-md-4 my-btn" value="setCloseTime">Set time to close</button>
+		</div>
+	</div>
+
 	<!--===============================================================================================-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
 	<!--===============================================================================================-->

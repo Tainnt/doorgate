@@ -6,21 +6,29 @@ var socket = io.connect(host + ':' + port);
 var input = $('.my-btn');
 for (let i = 0; i < input.length; i++) {
     $(input[i]).on('click', function () {
-        socket.emit('buttonCmd', {
-            command: $(this).val()
-        });
+
         switch ($(this).val()) {
             case 'open':
-                // $('.form-control').append('open ');
-
-                break;
             case 'close':
-                // $('.form-control').append('close ');
-
-                break;
             case 'stop':
-                // $('.form-control').append('stop ');
-
+                socket.emit('buttonCmd', {
+                    command: $(this).val()
+                });
+                break;
+            // TO-DO: Compact code 
+            case 'setOpenTime':
+                socket.emit('setAlarm', {
+                    hour: $('#hourOpen').val(),
+                    minute: $('#minuteOpen').val(),
+                    command: 'open'
+                });
+                break;
+            case 'setCloseTime':
+                socket.emit('setAlarm', {
+                    hour: $('#hourClose').val(),
+                    minute: $('#minuteClose').val(),
+                    command: 'close'
+                });
                 break;
             default:
                 break;
@@ -29,11 +37,29 @@ for (let i = 0; i < input.length; i++) {
     });
 }
 
+
 $('.btn.btn-danger').on('click', function () {
     // $('.form-control').append('logout ');
     window.location = '/logout';
 });
 
-socket.on('updateMonitor', function (data) {
-    $('.form-control').append(data.text + '\n')
+socket.on('updateDoorState', function (data) {
+    $('#doorState').text((data.state).toUpperCase());
+    switch (data.state) {
+        case 'open':
+            $('#doorState').css('color', 'green');
+            break;
+        case 'close':
+            $('#doorState').css('color', 'blue');
+            break;
+        case 'stop':
+            $('#doorState').css('color', 'red');
+            break;
+        default:
+            break;
+    }
+});
+
+socket.on('updateConsole', function (data) {
+    $('.form-control').append(data.text + '\n');
 });

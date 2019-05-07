@@ -32,20 +32,35 @@ server.listen(8080, function () {
 io.on('connection', function (socket) {
     console.log('-----------------Connected id: ' + socket.id + '--------------------');
     socket.on('buttonCmd', function (data) {
-        console.log(data.command);
+        console.log('buttonCmd: ' + data.command);
+        db.updateDoorState(data.command);
+        io.emit('updateDoorState', {
+            state: data.command
+        });
         io.emit('cmdToEsp', data.command);
+    });
+
+    socket.on('setAlarm', function (data) {
+        console.log('setAlarm: ' + data.hour + ':' + data.minute);
+        var date = new Date();
+        date.setHours(data.hour, data.minute, 0, 0);
+        alarm(date, function () {
+            console.log('test close: ' + data.command);
+            console.log('alarm door ' + data.command);
+            io.emit('cmdToEsp', data.command);
+        });
     });
 
     socket.on('readTag', function (data) {
         console.log('read tag: ' + data.uid);
-        db.validateTag(data.uid, function (isCorrect) {
-            if (isCorrect)
-                io.emit('updateMonitor', {
-                    text: data.uid + ' correct'
+        db.validateTag(data.uid, function (isGranted) {
+            if (isGranted)
+                io.emit('updateConsole', {
+                    text: data.uid + ' granted'
                 });
             else
-                io.emit('updateMonitor', {
-                    text: data.uid + ' incorrect'
+                io.emit('updateConsole', {
+                    text: data.uid + ' denied'
                 });
         });
     });
@@ -53,28 +68,28 @@ io.on('connection', function (socket) {
     socket.on('insertTag', function (data) {
         console.log('insert tag: ' + data.uid);
         db.insertTag(data.uid);
-        io.emit('updateMonitor', {
-            text: 'insert tag: ' + data.uid
+        io.emit('updateConsole', {
+            text: data.uid + 'insert db succesful'
         });
     });
 
-    socket.on('alarm', function (data) {
-        var date = new Date();
-        date.setHours(14, 41, 0, 0);
-        alarm(date, function () {
-            console.log('alarm callback');
-        });
-    });
+    // socket.on('alarm', function (data) {
+    //     var date = new Date();
+    //     date.setHours(14, 41, 0, 0);
+    //     alarm(date, function () {
+    //         console.log('alarm callback');
+    //     });
+    // });
 
     // socket.on('test', function (data) {
     //     // db.insertTag('12345678');
-    //     db.validateTag(data.content, function (isCorrect) {
-    //         if (isCorrect)
-    //             io.emit('updateMonitor', {
+    //     db.validateTag(data.content, function (isGranted) {
+    //         if (isGranted)
+    //             io.emit('updateConsole', {
     //                 text: 'correct'
     //             });
     //         else
-    //             io.emit('updateMonitor', {
+    //             io.emit('updateConsole', {
     //                 text: 'incorrect'
     //             });
     //     });
