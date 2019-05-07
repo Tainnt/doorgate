@@ -1,18 +1,18 @@
 var mysql = require('mysql');
 
+// var pool = mysql.createConnection({
+//     host: 'db4free.net',
+//     user: 'tainnt',
+//     password: '123454321',
+//     database: 'doorgate',
+// });
+
 var pool = mysql.createConnection({
-    host: 'db4free.net',
-    user: 'tainnt',
-    password: '123454321',
+    host: 'doorgate.tk',
+    user: 'mradmin',
+    password: 'taometroinha',
     database: 'doorgate',
 });
-
-// var pool = mysql.createConnection({
-//     host: 'doorgate.tk',
-//     user: 'test',
-//     password: 'testing',
-//     database: 'computerized_nhatro',
-// });
 
 module.exports = {
     insertTag: function (rfid) {
