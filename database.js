@@ -14,6 +14,7 @@ var pool = mysql.createConnection({
     database: 'doorgate',
 });
 
+
 module.exports = {
     insertTag: function (rfid) {
         var sql = 'INSERT INTO rfid_tenant(rfid) VALUES (?)';
