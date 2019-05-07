@@ -33,7 +33,7 @@ io.on('connection', function (socket) {
     console.log('-----------------Connected id: ' + socket.id + '--------------------');
     socket.on('buttonCmd', function (data) {
         console.log('buttonCmd: ' + data.command);
-        db.updateDoorState(data.command);
+        // db.updateDoorState(data.command);
         io.emit('updateDoorState', {
             state: data.command
         });
@@ -45,7 +45,6 @@ io.on('connection', function (socket) {
         var date = new Date();
         date.setHours(data.hour, data.minute, 0, 0);
         alarm(date, function () {
-            console.log('test close: ' + data.command);
             console.log('alarm door ' + data.command);
             io.emit('cmdToEsp', data.command);
         });
