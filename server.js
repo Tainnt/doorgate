@@ -40,13 +40,23 @@ io.on('connection', function (socket) {
         io.emit('cmdToEsp', data.command);
     });
 
+    socket.on('getDoorState', function () {
+        db.getDoorState(function (result) {
+            io.emit('updateDoorState', {
+                state: result.state
+            });
+        });
+    });
+
     socket.on('setAlarm', function (data) {
-        console.log('setAlarm: ' + data.hour + ':' + data.minute);
+        console.log('setAlarm ' + data.command + ': ' + data.hour + ':' + data.minute);
         var date = new Date();
         date.setHours(data.hour, data.minute, 0, 0);
         alarm(date, function () {
-            console.log('test close: ' + data.command);
             console.log('alarm door ' + data.command);
+            socket.emit('buttonCmd', {
+                command: data.command
+            });
             io.emit('cmdToEsp', data.command);
         });
     });
@@ -81,17 +91,8 @@ io.on('connection', function (socket) {
     //     });
     // });
 
-    // socket.on('test', function (data) {
-    //     // db.insertTag('12345678');
-    //     db.validateTag(data.content, function (isGranted) {
-    //         if (isGranted)
-    //             io.emit('updateConsole', {
-    //                 text: 'correct'
-    //             });
-    //         else
-    //             io.emit('updateConsole', {
-    //                 text: 'incorrect'
-    //             });
-    //     });
-    // });
+    socket.on('test', function (data) {
+        // console.log('data.name: ' + data.x + ' ' + data.y);  
+        db.updateKey(data.x, data.y);
+    });
 });

@@ -2,56 +2,104 @@
 <html lang="en">
 
 <head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
 	<title>Monitor</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--===============================================================================================-->
+
+	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" href="/css/simple-sidebar.css">
 	<link rel="stylesheet" type="text/css" href="/css/monitor.css">
-	<!--===============================================================================================-->
+
 </head>
 
 <body>
-	<div class="container-fluid ">
-		<div class="row">
-			<label class="col-md-10 text-left"> DOOR STATE: 
-				<label id="doorState">CLOSE</label>
-			</label>
-			<button type="button" class="col-md-2 btn btn-danger" value="logout">Logout</button>
-		</div>
-	</div>
-	<textarea class="form-control" rows="3" disabled></textarea>
-	<div class="container-fluid">
-		<div class="row">
-			<button type="button" class="col-md-4 my-btn" value="open">Open</button>
-			<button type="button" class="col-md-4 my-btn" value="close">Close</button>
-			<button type="button" class="col-md-4 my-btn" value="stop">Stop</button>
-		</div>
-	</div>
-	<div class="col-md-4 container-fluid">
-		<div class="input-group">
-			<input type="number" class="form-control" placeholder="Hour" id="hourOpen">
-			<input type="number" class="form-control" placeholder="Minute" id="minuteOpen">
-			<button type="button" class="col-md-4 my-btn" value="setOpenTime">Set time to open</button>
-			
-		</div>
-	</div>
-	<div class="col-md-4 container-fluid">
-		<div class="input-group">
-				<input type="number" class="form-control" placeholder="Hour" id="hourClose">
-				<input type="number" class="form-control" placeholder="Minute" id="minuteClose">
-				<button type="button" class="col-md-4 my-btn" value="setCloseTime">Set time to close</button>
-		</div>
-	</div>
 
-	<!--===============================================================================================-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
-	<!--===============================================================================================-->
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar -->
+		<div class="bg-light border-right" id="sidebar-wrapper">
+			<div class="sidebar-heading">Door Gate </div>
+			<div class="list-group list-group-flush">
+				<a href="/monitor" class="list-group-item list-group-item-action bg-light">Monitor</a>
+				<a href="/dbviewer" class="list-group-item list-group-item-action bg-light">Database viewer</a>
+			</div>
+		</div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+				<button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<button class="btn btn-danger" id="logout" value="logout">Logout</button>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<div class="container-fluid ">
+				<div class="row">
+					<label class="col-md-10 text-left"> DOOR STATE:
+						<label id="doorState">CLOSE</label>
+					</label>
+				</div>
+			</div>
+			<textarea class="form-control" rows="3" disabled></textarea>
+			<div class="container-fluid">
+				<div class="row">
+					<button type="button" class="col-md-4 my-btn" value="open">Open</button>
+					<button type="button" class="col-md-4 my-btn" value="close">Close</button>
+					<button type="button" class="col-md-4 my-btn" value="stop">Stop</button>
+				</div>
+			</div>
+			<div class="col-md-4 container-fluid">
+				<div class="input-group">
+					<input type="number" class="form-control" placeholder="Hour" id="hourOpen">
+					<input type="number" class="form-control" placeholder="Minute" id="minuteOpen">
+					<button type="button" class="col-md-4 my-btn" value="setOpenTime">Set time to open</button>
+
+				</div>
+			</div>
+			<div class="col-md-4 container-fluid">
+				<div class="input-group">
+					<input type="number" class="form-control" placeholder="Hour" id="hourClose">
+					<input type="number" class="form-control" placeholder="Minute" id="minuteClose">
+					<button type="button" class="col-md-4 my-btn" value="setCloseTime">Set time to close</button>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- Bootstrap core JavaScript -->
 	<script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
-	<script src="/vendor/bootstrap/js/popper.js"></script>
 	<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<!--===============================================================================================-->
-	<script src="/js/monitor.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+	<script src="/vendor/bootstrap/js/popper.js"></script>
+
 </body>
+<script>
+	// $("#menu-toggle").on('click', function (e) {
+	// 	e.preventDefault();
+	// 	$("#wrapper").toggleClass("toggled");
+	// });
+</script>
 
 </html>
