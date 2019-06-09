@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
+
 	<!-- Custom styles for this template -->
 	<link rel="stylesheet" href="/css/simple-sidebar.css">
 	<link rel="stylesheet" type="text/css" href="/css/monitor.css">
@@ -36,8 +37,7 @@
 		<!-- Page Content -->
 		<div id="page-content-wrapper">
 			<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-				<button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-
+				<button class="btn" id="btnMenu">Menu</button>
 				<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 					aria-label="Toggle navigation">
@@ -82,6 +82,13 @@
 					<button type="button" class="col-md-4 my-btn" value="setCloseTime">Set time to close</button>
 				</div>
 			</div>
+			<div class="col-md-12 container-fluid">
+				<div class="input-group">
+					<input type="number" class="form-control" placeholder="parameter" id="txtParameter">
+					<button type="button" class="col-md-4 my-btn" id="btnRun">RUN PYTHON</button>
+					<button type="button" class="col-md-4 my-btn" id="btnTest">RUN TEST</button>
+				</div>
+			</div>
 		</div>
 		<!-- /#page-content-wrapper -->
 
@@ -89,17 +96,11 @@
 	<!-- /#wrapper -->
 
 	<!-- Bootstrap core JavaScript -->
-	<script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
-	<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+	<script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="/vendor/bootstrap/js/popper.js"></script>
-
+	<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/js/monitor.js"></script>
 </body>
-<script>
-	// $("#menu-toggle").on('click', function (e) {
-	// 	e.preventDefault();
-	// 	$("#wrapper").toggleClass("toggled");
-	// });
-</script>
 
 </html>

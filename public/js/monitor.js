@@ -15,7 +15,7 @@ for (let i = 0; i < input.length; i++) {
                     command: $(this).val()
                 });
                 break;
-            // TO-DO: Compact code 
+                // TO-DO: Compact code 
             case 'setOpenTime':
                 socket.emit('setAlarm', {
                     hour: $('#hourOpen').val(),
@@ -37,8 +37,31 @@ for (let i = 0; i < input.length; i++) {
     });
 }
 
+$(document).ready(function () {
+    socket.emit('getDoorState', {});
+});
 
-$('.btn.btn-danger').on('click', function () {
+$('#btnMenu').on('click', function (e) {
+    e.preventDefault();
+    $('#wrapper').toggleClass("toggled");
+});
+
+$('#btnRun').on('click', function (e) {
+    e.preventDefault();
+    socket.emit('test', {
+        type: 'run',
+        para: $('#txtParameter').val()
+    });
+});
+$('#btnTest').on('click', function (e) {
+    e.preventDefault();
+    socket.emit('test', {
+        type: 'test',
+        para: $('#txtParameter').val()
+    });
+});
+
+$('#logout').on('click', function () {
     // $('.form-control').append('logout ');
     window.location = '/logout';
 });

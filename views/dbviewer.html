@@ -11,9 +11,9 @@
 	<title>Database viewer</title>
 
 	<!-- Bootstrap core CSS -->
-	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	
 	<!-- Custom styles for this template -->
 	<link rel="stylesheet" href="/css/simple-sidebar.css">
 	<link rel="stylesheet" type="text/css" href="/css/dbviewer.css">
@@ -36,7 +36,7 @@
 		<!-- Page Content -->
 		<div id="page-content-wrapper">
 			<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-				<button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+				<button class="btn" id="btnMenu">Menu</button>
 
 				<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -52,15 +52,27 @@
 					</ul>
 				</div>
 			</nav>
-			<div class="container-fluid ">
-				<div class="col-md-12">
+			<div class="container-fluid mt-2">
+				<div class="col-md-14">
 					<div class="card card-user">
 						<div class="card-header">
-							<h5 class="card-title">Edit Profile</h5>
+							<div class="row">
+								<div class="col-md-8">
+									<div class="form-group">
+										<h5 class="card-title mt-3">Edit Profile</h5>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group mt-1">
+										<input class="form-control" type="search" placeholder="Search"
+											aria-label="Search" id="search-input">
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="card-body">
 							<form>
-								<div class="row">
+								<!-- <div class="row">
 									<div class="col-md-5 pr-1">
 										<div class="form-group">
 											<label>Company (disabled)</label>
@@ -81,65 +93,52 @@
 											<input type="email" class="form-control" placeholder="Email">
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<div class="row">
 									<div class="col-md-6 pr-1">
 										<div class="form-group">
-											<label>First Name</label>
-											<input type="text" class="form-control" placeholder="Company" value="Chet">
+											<label>Name</label>
+											<input type="text" class="form-control" value="""  id="txbName">
 										</div>
 									</div>
 									<div class="col-md-6 pl-1">
 										<div class="form-group">
-											<label>Last Name</label>
-											<input type="text" class="form-control" placeholder="Last Name"
-												value="Faker">
+											<label>Phone</label>
+											<input type="text" class="form-control" value="" id="txbPhone">
 										</div>
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label>Address</label>
-											<input type="text" class="form-control" placeholder="Home Address"
-												value="Melbourne, Australia">
+										<div class="col-md-6 pr-1">
+											<div class="form-group">
+												<label>Avatar</label>
+												<input type="text" class="form-control" value="" id="txbAvatar">
+											</div>
+										</div>
+										<div class="col-md-6 pl-1">
+											<div class="form-group">
+												<label>RFID</label>
+												<input type="text" class="form-control" value="" id="txbRfid">
+											</div>
 										</div>
 									</div>
-								</div>
+									<div class="row">
+											<div class="col-md-6 pr-1">
+												<div class="form-group">
+													<label>Password</label>
+													<input type="text" class="form-control" value="" id="txbPassword">
+												</div>
+											</div>
+											<div class="col-md-6 pl-1">
+												<div class="form-group">
+													<label>Flash address</label>
+													<input type="text" class="form-control" value="" id="txbFlashAddress">
+												</div>
+											</div>
+										</div>
 								<div class="row">
-									<div class="col-md-4 pr-1">
-										<div class="form-group">
-											<label>City</label>
-											<input type="text" class="form-control" placeholder="City"
-												value="Melbourne">
-										</div>
-									</div>
-									<div class="col-md-4 px-1">
-										<div class="form-group">
-											<label>Country</label>
-											<input type="text" class="form-control" placeholder="Country"
-												value="Australia">
-										</div>
-									</div>
-									<div class="col-md-4 pl-1">
-										<div class="form-group">
-											<label>Postal Code</label>
-											<input type="number" class="form-control" placeholder="ZIP Code">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label>About Me</label>
-											<textarea
-												class="form-control textarea">Oh so, your weak rhyme You doubt I'll bother, reading into it</textarea>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="update ml-auto mr-auto">
-										<button type="submit" class="btn btn-primary btn-round">Update Profile</button>
+									<div class="ml-auto mr-auto">
+										<button class="btn btn-primary" id="btnUpdate">Update Profile</button>
 									</div>
 								</div>
 							</form>
@@ -154,20 +153,13 @@
 	<!-- /#wrapper -->
 
 	<!-- Bootstrap core JavaScript -->
-	<script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
-	<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
-	<script src="/vendor/bootstrap/js/popper.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 	<script src="/js/dbviewer.js"></script>
-
-	<!-- Menu Toggle Script -->
-	<script>
-		$("#menu-toggle").click(function (e) {
-			e.preventDefault();
-			$("#wrapper").toggleClass("toggled");
-		});
-	</script>
-
 </body>
 
 </html>

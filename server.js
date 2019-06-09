@@ -8,6 +8,8 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var router = require('./router');
 var db = require('./database');
+var spawn = require('child_process').spawn;
+var py = spawn('python', ['test.py']);
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
@@ -31,6 +33,55 @@ server.listen(8080, function () {
 
 io.on('connection', function (socket) {
     console.log('-----------------Connected id: ' + socket.id + '--------------------');
+
+    socket.on('searchDB', function (data) {
+        console.log('searchDB: ' + data.argument);
+        db.getTenant(data.argument, function (result) {
+            console.log('result :', result);
+            io.emit('updateDBViewer', {
+                argument: result,
+                type: 'data'
+            });
+        });
+    });
+
+    socket.on('getTenantField', function (data) {
+        console.log('getTenantField');
+        db.getTenantFields(function (field) {
+            // console.log('field :', field);
+            var arr = [];
+            for (var i = 0; i < field.length; i++) {
+                if (field[i].name != 'id' && field[i].name != 'id_tenant') {
+                    if (field[i].type == 3) {
+                        arr.push({
+                            'name': field[i].name,
+                            'len': field[i].length
+                        });
+                    } else {
+                        arr.push({
+                            'name': field[i].name,
+                            'len': field[i].length / 4
+                        });
+                    }
+                }
+            }
+            console.log('arr :', arr);
+            io.emit('updateDBViewer', {
+                argument: arr,
+                type: 'length'
+            });
+        });
+    });
+
+    socket.on('validatePassword', function (data) {
+        console.log('validatePassword: ' + data.pwd);
+        // db.updateDoorState(data.command);
+        // io.emit('updateDoorState', {
+        //     state: data.command
+        // });
+        // io.emit('cmdToEsp', data.command);
+    });
+
     socket.on('buttonCmd', function (data) {
         console.log('buttonCmd: ' + data.command);
         db.updateDoorState(data.command);
@@ -64,14 +115,17 @@ io.on('connection', function (socket) {
     socket.on('readTag', function (data) {
         console.log('read tag: ' + data.uid);
         db.validateTag(data.uid, function (isGranted) {
-            if (isGranted)
+            if (isGranted) {
                 io.emit('updateConsole', {
                     text: data.uid + ' granted'
                 });
-            else
+                io.emit('cmdToEsp', 'granted');
+            } else {
                 io.emit('updateConsole', {
                     text: data.uid + ' denied'
                 });
+                io.emit('cmdToEsp', 'denied');
+            }
         });
     });
 
@@ -92,7 +146,28 @@ io.on('connection', function (socket) {
     // });
 
     socket.on('test', function (data) {
-        // console.log('data.name: ' + data.x + ' ' + data.y);  
-        db.updateKey(data.x, data.y);
+        if (data.type == 'run') {
+            var process = spawn('python', ["./pi_face_recognition.py",
+                data.para
+            ]);            
+
+            process.stdout.on('data', function (data) {
+                // console.log('data from python file:', data.toString());
+                io.emit('updateConsole', {
+                    text: data.toString()
+                });
+            });
+        } else if (data.type == 'test') {
+            var process = spawn('python', ["./test.py",
+                data.para
+            ]);
+
+            process.stdout.on('data', function (data) {
+                // console.log('data from python file:', data.toString());
+                io.emit('updateConsole', {
+                    text: data.toString()
+                });
+            });
+        }
     });
 });

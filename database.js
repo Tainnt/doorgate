@@ -133,6 +133,19 @@ module.exports = {
             if (result[0] != null) {
                 callback(result[0]);
             }
+            else{
+                callback(null);
+            }
+        });
+    },
+
+    getTenantFields: function (callback) {
+        var sql = 'SELECT * ' +
+            'FROM tenant_info INNER JOIN tenant_key ON tenant_info.id = tenant_key.id_tenant';
+        pool.query(sql, function (err, result, fields) {
+            if (err)
+                throw err;
+            callback(fields);
         });
     },
 

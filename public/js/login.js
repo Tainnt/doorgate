@@ -1,3 +1,28 @@
+function toasterOptions() {
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "100",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "show",
+        "hideMethod": "hide"
+    };
+};
+
+$(document).ready(function () {
+    toasterOptions();
+    
+});
+
 function validate(input) {
     if ($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
         if ($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
@@ -52,15 +77,28 @@ $('.login100-form-btn').on('click', function () {
         dataType: 'json',
         async: false,
         success: function (response) {
+            $("#myModal").modal({
+                backdrop: false,
+                keyboard: false
+            });
+            $('#btnContinue').focus();
             if (response.status == 'granted') {
-                alert('Đăng nhập thành công');
-                setCookie("doorgate", response.id, 365);
-                // window.location = '/management';
-                window.location = '/monitor';
+                $('#btnContinue').attr('class','btn btn-primary');
+                $('.modal-title').html('Login successful');
+                $('#myModal').modal('show');
+                $('#btnContinue').on('click', function () {
+                    setCookie("doorgate", response.id, 365);
+                    window.location = '/monitor';
+                });
             } else {
-                alert('Đăng nhập thất bại');
-                $(input[0]).val("");
-                $(input[1]).val("");
+                $('#btnContinue').attr('class','btn btn-danger');
+                $('.modal-title').html('Login failed');
+                $('#myModal').modal('show');
+                $('#btnContinue').on('click', function () {
+                    $(input[0]).focus();
+                    $(input[0]).val("");
+                    $(input[1]).val("");
+                });
             }
         }
     });
