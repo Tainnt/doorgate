@@ -84,5 +84,6 @@ socket.on('updateDoorState', function (data) {
 });
 
 socket.on('updateConsole', function (data) {
-    $('.form-control').append(data.text + '\n');
+    $('#textarea').append(data.text + '\n');
+    $('#textarea').scrollTop($('#textarea')[0].scrollHeight);
 });
