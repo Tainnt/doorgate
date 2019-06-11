@@ -157,6 +157,7 @@ io.on('connection', function (socket) {
 
     socket.on('doorStop', function (data) {
         console.log('door stop: ' + data.state);
+        db.updateDoorState(data.state);
         io.emit('updateDoorState', {
             state: data.state
         });
