@@ -114,17 +114,35 @@ io.on('connection', function (socket) {
 
     socket.on('readTag', function (data) {
         console.log('read tag: ' + data.uid);
-        db.validateTag(data.uid, function (isGranted) {
+        db.validateKey(data.uid, function (isGranted) {
             if (isGranted) {
                 io.emit('updateConsole', {
                     text: data.uid + ' granted'
                 });
-                io.emit('cmdToEsp', 'granted');
+                io.emit('cmdToEsp', 'open');
+
+                // var process = spawn('python', ["./pi_face_recognition.py",
+                //     data.para
+                // ]);
+
+                // process.stdout.on('data', function (data) {
+                //     io.emit('updateConsole', {
+                //         text: data.toString()
+                //     });
+                //     if(data.toString() == 'granted'){
+                //         io.emit('cmdToEsp', 'open');
+                //     }
+                //     else if (data.toString() == 'denied'){
+                //         io.emit('cmdToEsp', 'stop');
+                //     }
+                // });
+
+
             } else {
                 io.emit('updateConsole', {
                     text: data.uid + ' denied'
                 });
-                io.emit('cmdToEsp', 'denied');
+                io.emit('cmdToEsp', 'stop');
             }
         });
     });
@@ -137,19 +155,18 @@ io.on('connection', function (socket) {
         });
     });
 
-    // socket.on('alarm', function (data) {
-    //     var date = new Date();
-    //     date.setHours(14, 41, 0, 0);
-    //     alarm(date, function () {
-    //         console.log('alarm callback');
-    //     });
-    // });
+    socket.on('doorStop', function (data) {
+        console.log('door stop: ' + data.state);
+        io.emit('updateDoorState', {
+            state: data.state
+        });
+    });
 
     socket.on('test', function (data) {
         if (data.type == 'run') {
             var process = spawn('python', ["./pi_face_recognition.py",
                 data.para
-            ]);            
+            ]);
 
             process.stdout.on('data', function (data) {
                 // console.log('data from python file:', data.toString());
@@ -163,7 +180,6 @@ io.on('connection', function (socket) {
             ]);
 
             process.stdout.on('data', function (data) {
-                // console.log('data from python file:', data.toString());
                 io.emit('updateConsole', {
                     text: data.toString()
                 });
