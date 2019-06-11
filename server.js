@@ -115,12 +115,12 @@ io.on('connection', function (socket) {
     socket.on('readTag', function (data) {
         console.log('read tag: ' + data.uid);
         db.validateKey(data.uid, function (isGranted) {
+            let result = 'stop';
             if (isGranted) {
                 io.emit('updateConsole', {
                     text: data.uid + ' granted'
                 });
-                io.emit('cmdToEsp', 'open');
-
+                result = 'open';
                 // var process = spawn('python', ["./pi_face_recognition.py",
                 //     data.para
                 // ]);
@@ -142,8 +142,13 @@ io.on('connection', function (socket) {
                 io.emit('updateConsole', {
                     text: data.uid + ' denied'
                 });
-                io.emit('cmdToEsp', 'stop');
+                result = 'stop';
             }
+            io.emit('cmdToEsp', result);
+            db.updateDoorState(result);
+            io.emit('updateDoorState', {
+                state: result
+            });
         });
     });
 
