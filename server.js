@@ -242,7 +242,7 @@ io.on('connection', function (socket) {
         });
     });
 
-    socket.on('testInsert', function (data) {
+    socket.on('insertTag', function (data) {
         console.log('insert tag: ' + data.uid);
         db.findKey(data.uid,function (result) {
             if(!result){
