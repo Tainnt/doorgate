@@ -17,18 +17,33 @@ for (let i = 0; i < input.length; i++) {
                 break;
                 // TO-DO: Compact code 
             case 'setOpenTime':
-                socket.emit('setAlarm', {
-                    hour: $('#hourOpen').val(),
-                    minute: $('#minuteOpen').val(),
-                    command: 'open'
-                });
+                if (checkTime($('#hourOpen').val(), $('#minuteOpen').val())) {
+                    toastr.success('Time to open door is set');
+                    socket.emit('setAlarm', {
+                        hour: $('#hourOpen').val(),
+                        minute: $('#minuteOpen').val(),
+                        command: 'open'
+                    });
+                } else {
+                    toastr.error('Hour or minutes is wrong');
+                    $('#hourOpen').val('');
+                    $('#minuteOpen').val('');
+                }
                 break;
             case 'setCloseTime':
-                socket.emit('setAlarm', {
-                    hour: $('#hourClose').val(),
-                    minute: $('#minuteClose').val(),
-                    command: 'close'
-                });
+                if (checkTime($('#hourClose').val(), $('#minuteClose').val())) {
+                    toastr.success('Time to close door is set');
+                    socket.emit('setAlarm', {
+                        hour: $('#hourClose').val(),
+                        minute: $('#minuteClose').val(),
+                        command: 'close'
+                    });
+                }
+                else{
+                    toastr.error('Hour or minutes is wrong');
+                    $('#hourClose').val('');
+                    $('#minuteClose').val('');
+                }
                 break;
             default:
                 break;
@@ -37,8 +52,30 @@ for (let i = 0; i < input.length; i++) {
     });
 }
 
+function toasterOptions() {
+    toastr.options = {
+        'closeButton': true,
+        'debug': false,
+        'newestOnTop': true,
+        'progressBar': true,
+        'positionClass': 'toast-top-right',
+        'preventDuplicates': true,
+        'onclick': null,
+        'showDuration': '100',
+        'hideDuration': '1000',
+        'timeOut': '5000',
+        'extendedTimeOut': '1000',
+        'showEasing': 'swing',
+        'hideEasing': 'linear',
+        'showMethod': 'show',
+        'hideMethod': 'hide'
+    };
+};
+
 $(document).ready(function () {
     socket.emit('getDoorState', {});
+    socket.emit('getDoorTime', {});
+    toasterOptions();
 });
 
 $('#btnMenu').on('click', function (e) {
@@ -53,6 +90,7 @@ $('#btnRun').on('click', function (e) {
         para: $('#txtParameter').val()
     });
 });
+
 $('#btnTest').on('click', function (e) {
     e.preventDefault();
     socket.emit('test', {
@@ -83,7 +121,24 @@ socket.on('updateDoorState', function (data) {
     }
 });
 
+socket.on('updateDoorTime', function (data) {
+    
+    $('#hourOpen').val(data.openH);
+    $('#minuteOpen').val(data.openM);
+    $('#hourClose').val(data.closeH);
+    $('#minuteClose').val(data.closeM);
+});
+
 socket.on('updateConsole', function (data) {
     $('#textarea').append(data.text + '\n');
     $('#textarea').scrollTop($('#textarea')[0].scrollHeight);
 });
+
+function checkTime(hour, minute) {
+    let h = parseInt(hour);
+    let m = parseInt(minute);
+    if (h > 1 && h < 25 && m > 1 && m < 61)
+        return true;
+    else
+        return false;
+}

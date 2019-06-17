@@ -2,7 +2,7 @@ var express = require('express');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var alarm = require('alarm');
+var schedule = require('node-schedule');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
@@ -28,7 +28,34 @@ app.use(session({
 app.use('/', router);
 
 server.listen(8080, function () {
-    console.log('Server is running at port: 8080!')
+    console.log('Server is running at port: 8080!');
+    console.log('Kiểm tra thời gian trước khi set báo thức, nếu inputTime < currentTime => set báo thức cho ngày hôm sau');
+    // db.getTime(function (result) {
+    //     let open = result.open_time.split(':');
+    //     let close = result.close_time.split(':');
+
+    //     var openTime = new Date();
+    //     openTime.setHours(open[0], open[1], 0, 0);
+    //     console.log('setAlarm open door ' + ': ' + open[0] + ':' + open[1]);
+    //     alarm(openTime, function () {
+    //         console.log('alarm open door');
+    //         io.emit('buttonCmd', {
+    //             command: 'open'
+    //         });
+    //         io.emit('cmdToEsp', 'open');
+    //     });
+
+    //     var closeTime = new Date();
+    //     closeTime.setHours(close[0], close[1], 0, 0);
+    //     console.log('setAlarm open door ' + ': ' + close[0] + ':' + close[1]);
+    //     alarm(closeTime, function () {
+    //         console.log('alarm close door');
+    //         io.emit('buttonCmd', {
+    //             command: 'close'
+    //         });
+    //         io.emit('cmdToEsp', 'close');
+    //     });
+    // });
 });
 
 io.on('connection', function (socket) {
@@ -99,17 +126,80 @@ io.on('connection', function (socket) {
         });
     });
 
+    socket.on('getDoorTime', function () {
+        db.getTime(function (result) {
+            // console.log('open :', result.open_time);
+            // console.log('close :', result.close_time);
+            let open = result.open_time.split(':');
+            let close = result.close_time.split(':');
+            io.emit('updateDoorTime', {
+                openH: open[0],
+                openM: open[1],
+                closeH: close[0],
+                closeM: close[1],
+            });
+
+            // var openTime = new Date();
+            // openTime.setHours(open[0], open[1], 0, 0);
+            // alarm(openTime, function () {
+            //     console.log('alarm open door');
+            //     socket.emit('buttonCmd', {
+            //         command: 'open'
+            //     });
+            //     io.emit('cmdToEsp', 'open');
+            // });
+
+            // var closeTime = new Date();
+            // closeTime.setHours(close[0], close[1], 0, 0);
+            // alarm(closeTime, function () {
+            //     console.log('alarm close door');
+            //     socket.emit('buttonCmd', {
+            //         command: 'close'
+            //     });
+            //     io.emit('cmdToEsp', 'close');
+            // });
+        });
+    });
+
     socket.on('setAlarm', function (data) {
         console.log('setAlarm ' + data.command + ': ' + data.hour + ':' + data.minute);
-        var date = new Date();
-        date.setHours(data.hour, data.minute, 0, 0);
-        alarm(date, function () {
-            console.log('alarm door ' + data.command);
-            socket.emit('buttonCmd', {
-                command: data.command
-            });
-            io.emit('cmdToEsp', data.command);
+        // if (data.command == 'open') {
+        //     db.updateOpenTime(data.hour + ':' + data.minute);
+        // } else if (data.command == 'close') {
+        //     db.updateCloseTime(data.hour + ':' + data.minute);
+        // }
+        // var date = new Date();
+        // date.setHours(data.hour, data.minute, 0, 0);
+        // alarm(date, function () {
+        //     console.log('alarm door ' + data.command);
+        //     io.emit('buttonCmd', {
+        //         command: data.command
+        //     });
+        //     io.emit('cmdToEsp', data.command);
+        // });
+        let my_job = schedule.scheduledJobs[data.command];
+        if (my_job != null)
+            my_job.cancel();
+        schedule.scheduleJob(data.command, {
+            hour: data.hour,
+            minute: data.minute
+        }, function () {
+            console.log('Time for work!');
         });
+        // setAlarm = schedule.scheduleJob({
+        //         hour: data.hour,
+        //         minute: data.minute
+        //     },
+        //     function () {
+        //         console.log('Time for work!');
+        //     });
+
+        // scheduleJob = schedule.scheduleJob({
+        //     hour: data.hour,
+        //     minute: data.minute
+        // }, function () {
+        //     console.log('Time for woFrk!');
+        // });
     });
 
     socket.on('readTag', function (data) {
@@ -154,9 +244,18 @@ io.on('connection', function (socket) {
 
     socket.on('insertTag', function (data) {
         console.log('insert tag: ' + data.uid);
-        db.insertTag(data.uid);
-        io.emit('updateConsole', {
-            text: data.uid + 'insert db succesful'
+        db.findKey(function (result) {
+            if(!result){
+                db.insertKey(data.uid);
+                io.emit('updateConsole', {
+                    text: data.uid + 'insert db succesful'
+                });
+            }
+            else{
+                io.emit('updateConsole', {
+                    text: data.uid + ' already exists in the database'
+                });
+            }
         });
     });
 
@@ -191,5 +290,11 @@ io.on('connection', function (socket) {
                 });
             });
         }
+    });
+
+    socket.on('test', function (data) {
+        db.getCloseTime(function (result) {
+            console.log('result :', result.close_time);
+        });
     });
 });
