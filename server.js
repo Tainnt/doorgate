@@ -242,13 +242,13 @@ io.on('connection', function (socket) {
         });
     });
 
-    socket.on('insertTag', function (data) {
+    socket.on('testInsert', function (data) {
         console.log('insert tag: ' + data.uid);
         db.findKey(data.uid,function (result) {
             if(!result){
                 db.insertKey(data.uid);
                 io.emit('updateConsole', {
-                    text: data.uid + 'insert db succesful'
+                    text: data.uid + ' insert db succesful'
                 });
             }
             else{
