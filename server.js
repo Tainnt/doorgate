@@ -255,7 +255,7 @@ io.on('connection', function (socket) {
     socket.on('insertTag', function (data) {
         console.log('insert tag: ' + data.uid);
         db.findKey(data.uid, function (result) {
-            if (!result) {
+            if (result!=null) {
                 db.insertKey(data.uid);
                 io.emit('updateConsole', {
                     text: data.uid + ' insert db succesful'

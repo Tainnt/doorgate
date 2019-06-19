@@ -38,12 +38,13 @@ module.exports = {
         pool.query(sql, [rfid], function (err, result, fields) {
             if (err)
                 throw err;
-            if (result[0] != null) {
-                callback(true);
-            }
-            else{
-                callback(false);
-            }
+            // if (result[0] != null) {
+            //     callback(true);
+            // }
+            // else{
+            //     callback(false);
+            // }
+            callback(result[0]);
         });
     },
 
