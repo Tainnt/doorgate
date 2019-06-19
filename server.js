@@ -13,11 +13,11 @@ var spawn = require('child_process').spawn;
 var py = spawn('python', ['test.py']);
 
 var pyshell = require('python-shell');
-var options = {
-    mode: 'text',
-    args: ['--cascade', 'haarcascade_frontalface_default.xml', '--encodings', 'encodings.pickle', '--candidate', '4']
-};
 
+// var options = {
+//     mode: 'text',
+//     args: ['--cascade', 'haarcascade_frontalface_default.xml', '--encodings', 'encodings.pickle', '--candidate', '4']
+// };
 // pyshell.PythonShell.run('script.py', options, function (err, results) {
 //     if (err) throw err;
 //     console.log('results', results);
@@ -223,21 +223,19 @@ io.on('connection', function (socket) {
                     text: data.uid + ' granted'
                 });
                 result = 'open';
-                // var process = spawn('python', ["./pi_face_recognition.py",
-                //     data.para
-                // ]);
+                db.findKey(data.uid, function (result) {
+                    console.log('id_tenant :', result.id_tenant);
+                    let options = {
+                        mode: 'text',
+                        args: ['--cascade', 'haarcascade_frontalface_default.xml', '--encodings', 'encodings.pickle', '--candidate', result.id_tenant]
+                    };
 
-                // process.stdout.on('data', function (data) {
-                //     io.emit('updateConsole', {
-                //         text: data.toString()
-                //     });
-                //     if(data.toString() == 'granted'){
-                //         io.emit('cmdToEsp', 'open');
-                //     }
-                //     else if (data.toString() == 'denied'){
-                //         io.emit('cmdToEsp', 'stop');
-                //     }
-                // });
+                    pyshell.PythonShell.run('pi_face_recognition.py', options, function (err, results) {
+                        if (err) throw err;
+                        console.log('results', results);
+                    });
+                });
+
 
 
             } else {
@@ -291,11 +289,16 @@ io.on('connection', function (socket) {
             //     });
             // });
 
+            let options = {
+                mode: 'text',
+                args: ['--cascade', 'haarcascade_frontalface_default.xml', '--encodings', 'encodings.pickle', '--candidate', data.para]
+            };
+
             pyshell.PythonShell.run('pi_face_recognition.py', options, function (err, results) {
                 if (err) throw err;
                 console.log('results', results);
             });
-            
+
         } else if (data.type == 'test') {
             var process = spawn('python', ["./test.py",
                 data.para
