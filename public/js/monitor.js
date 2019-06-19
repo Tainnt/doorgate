@@ -100,7 +100,6 @@ $('#btnTest').on('click', function (e) {
 });
 
 $('#logout').on('click', function () {
-    // $('.form-control').append('logout ');
     window.location = '/logout';
 });
 
@@ -137,7 +136,7 @@ socket.on('updateConsole', function (data) {
 function checkTime(hour, minute) {
     let h = parseInt(hour);
     let m = parseInt(minute);
-    if (h > 1 && h < 25 && m > 1 && m < 61)
+    if (h >= 0 && h <= 23 && m >= 0 && m <= 59)
         return true;
     else
         return false;

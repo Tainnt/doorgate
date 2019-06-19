@@ -1,18 +1,18 @@
 var mysql = require('mysql');
 
-// var pool = mysql.createConnection({
-//     host: 'db4free.net',
-//     user: 'tainnt',
-//     password: '123454321',
-//     database: 'doorgate',
-// });
-
 var pool = mysql.createConnection({
-    host: 'localhost',
-    user: 'mradmin',
-    password: 'taometroinha',
+    host: 'db4free.net',
+    user: 'tainnt',
+    password: '123454321',
     database: 'doorgate',
 });
+
+// var pool = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'mradmin',
+//     password: 'taometroinha',
+//     database: 'doorgate',
+// });
 
 module.exports = {
     // insertKey: function (rfid, password) {
@@ -177,7 +177,7 @@ module.exports = {
             if (err)
                 throw err;
             callback(result[0]);
-            console.log('Read door state successful');
+            console.log('Get door state successful');
         });
     },
 
@@ -205,6 +205,7 @@ module.exports = {
             if (err)
                 throw err;
             callback(result[0]);
+            console.log('Get time successful');
         });
     },
 };

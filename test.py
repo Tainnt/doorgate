@@ -1,4 +1,8 @@
+# test.py
 import sys
+my_name = 'Carlos'
 
-sys.stdout.write("Output from Python \n")
-sys.stdout.write("Parameter from node js: " + sys.argv[1] + "\n")
+print(sys.argv[1])
+print(sys.argv[2])
+print(sys.argv[3])
+print(sys.argv[4])
