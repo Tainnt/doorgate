@@ -197,16 +197,31 @@ io.on('connection', function (socket) {
                                 text: 'face recognition CORRECT'
                             });
                             commandToEsp = 'open';
+                            io.emit('cmdToEsp', commandToEsp);
+                            db.updateDoorState(commandToEsp);
+                            io.emit('updateDoorState', {
+                                state: commandToEsp
+                            });
                         } else if (py[py.length] == "Step 2 Denied!") {
                             io.emit('updateConsole', {
                                 text: 'face recognition UNCORRECT'
                             });
                             commandToEsp = 'stop';
+                            io.emit('cmdToEsp', commandToEsp);
+                            db.updateDoorState(commandToEsp);
+                            io.emit('updateDoorState', {
+                                state: commandToEsp
+                            });
                         } else {
                             io.emit('updateConsole', {
                                 text: 'ERROR'
                             });
                             commandToEsp = 'stop';
+                            io.emit('cmdToEsp', commandToEsp);
+                            db.updateDoorState(commandToEsp);
+                            io.emit('updateDoorState', {
+                                state: commandToEsp
+                            });
                         }
                     });
                 });
@@ -216,13 +231,13 @@ io.on('connection', function (socket) {
                     text: data.uid + ' denied'
                 });
                 commandToEsp = 'stop';
+                io.emit('cmdToEsp', commandToEsp);
+                db.updateDoorState(commandToEsp);
+                io.emit('updateDoorState', {
+                    state: commandToEsp
+                });
             }
-            console.log('commandToEsp :', commandToEsp);
-            io.emit('cmdToEsp', commandToEsp);
-            db.updateDoorState(commandToEsp);
-            io.emit('updateDoorState', {
-                state: commandToEsp
-            });
+
         });
     });
 
