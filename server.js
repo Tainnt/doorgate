@@ -182,14 +182,14 @@ io.on('connection', function (socket) {
 
                     pyshell.PythonShell.run('pi_face_recognition.py', options, function (err, results) {
                         if (err) throw err;
-                        console.log('results', results);
-                        if(result[result.length] == 'Step 2 Granted!'){
+                        console.log('results: ', resultsresult[result.length]);
+                        if(result[result.length] == "Step 2 Granted!"){
                             io.emit('updateConsole', {
                                 text: 'face recognition CORRECT'
                             });
                             result = 'open';
                         }
-                        else if(result[result.length] == 'Step 2 Denied!'){
+                        else if(result[result.length] == "Step 2 Denied!"){
                             io.emit('updateConsole', {
                                 text: 'face recognition UNCORRECT'
                             });
