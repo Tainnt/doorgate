@@ -202,7 +202,7 @@ io.on('connection', function (socket) {
                             io.emit('updateDoorState', {
                                 state: commandToEsp
                             });
-                        } else if (py[py.length] == "Step 2 Denied!") {
+                        } else if (py[py.length -1] == "Step 2 Denied!") {
                             io.emit('updateConsole', {
                                 text: 'face recognition UNCORRECT'
                             });
