@@ -15,7 +15,7 @@ var py = spawn('python', ['test.py']);
 var pyshell = require('python-shell');
 var options = {
     mode: 'text',
-    args: ['--cascade haarcascade_frontalface_default.xml', '--encodings encodings.pickle', '--candidate 4']
+    args: ['--cascade', 'haarcascade_frontalface_default.xml', '--encodings', 'encodings.pickle', '--candidate', '4']
 };
 
 // pyshell.PythonShell.run('script.py', options, function (err, results) {
