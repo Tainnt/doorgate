@@ -173,7 +173,6 @@ io.on('connection', function (socket) {
                 io.emit('updateConsole', {
                     text: data.uid + ' granted'
                 });
-                result = 'open';
                 db.findKey(data.uid, function (result) {
                     console.log('id_tenant :', result.id_tenant);
                     let options = {
@@ -184,6 +183,24 @@ io.on('connection', function (socket) {
                     pyshell.PythonShell.run('pi_face_recognition.py', options, function (err, results) {
                         if (err) throw err;
                         console.log('results', results);
+                        if(result[result.length] == 'granted'){
+                            io.emit('updateConsole', {
+                                text: 'face recognition CORRECT'
+                            });
+                            result = 'open';
+                        }
+                        else if(result[result.length] == 'denied'){
+                            io.emit('updateConsole', {
+                                text: 'face recognition UNCORRECT'
+                            });
+                            result = 'stop';
+                        }
+                        else{
+                            io.emit('updateConsole', {
+                                text: 'ERROR'
+                            });
+                            result = 'stop';
+                        }
                     });
                 });
 
