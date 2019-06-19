@@ -176,7 +176,7 @@ io.on('connection', function (socket) {
     socket.on('readTag', function (data) {
         console.log('read tag: ' + data.uid);
         db.validateKey(data.uid, function (isGranted) {
-            var command = 'stop';
+            var commandToEsp;
             if (isGranted) {
                 io.emit('updateConsole', {
                     text: data.uid + ' granted'
