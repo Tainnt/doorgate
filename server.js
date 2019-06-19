@@ -292,9 +292,9 @@ io.on('connection', function (socket) {
         }
     });
 
-    socket.on('test', function (data) {
-        db.getCloseTime(function (result) {
-            console.log('result :', result.close_time);
-        });
-    });
+    // socket.on('test', function (data) {
+    //     db.getTime(function (result) {
+    //         console.log('result :', result.close_time);
+    //     });
+    // });
 });
