@@ -168,7 +168,7 @@ io.on('connection', function (socket) {
     socket.on('readTag', function (data) {
         console.log('read tag: ' + data.uid);
         db.validateKey(data.uid, function (isGranted) {
-            let result = 'stop';
+            let command = 'stop';
             if (isGranted) {
                 io.emit('updateConsole', {
                     text: data.uid + ' granted'
@@ -180,26 +180,27 @@ io.on('connection', function (socket) {
                         args: ['--cascade', 'haarcascade_frontalface_default.xml', '--encodings', 'encodings.pickle', '--candidate', result.id_tenant]
                     };
 
-                    pyshell.PythonShell.run('pi_face_recognition.py', options, function (err, results) {
+                    pyshell.PythonShell.run('pi_face_recognition.py', options, function (err, py) {
                         if (err) throw err;
-                        console.log('results: ', resultsresult[result.length]);
-                        if(result[result.length] == "Step 2 Granted!"){
+			console.log('length: ', py.length);
+                        console.log('results: ', py);
+                        if(py[py.length-1] == "Step 2 Granted!"){
                             io.emit('updateConsole', {
                                 text: 'face recognition CORRECT'
                             });
-                            result = 'open';
+                            command = 'open';
                         }
-                        else if(result[result.length] == "Step 2 Denied!"){
+                        else if(py[py.length] == "Step 2 Denied!"){
                             io.emit('updateConsole', {
                                 text: 'face recognition UNCORRECT'
                             });
-                            result = 'stop';
+                            command = 'stop';
                         }
                         else{
                             io.emit('updateConsole', {
                                 text: 'ERROR'
                             });
-                            result = 'stop';
+                            command = 'stop';
                         }
                     });
                 });
@@ -208,12 +209,12 @@ io.on('connection', function (socket) {
                 io.emit('updateConsole', {
                     text: data.uid + ' denied'
                 });
-                result = 'stop';
+                command = 'stop';
             }
-            io.emit('cmdToEsp', result);
-            db.updateDoorState(result);
+            io.emit('cmdToEsp', command);
+            db.updateDoorState(command);
             io.emit('updateDoorState', {
-                state: result
+                state: command
             });
         });
     });

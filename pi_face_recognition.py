@@ -10,6 +10,7 @@ import imutils
 import pickle
 import time
 import cv2
+import sys
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -17,6 +18,8 @@ ap.add_argument("-c", "--cascade", required=True,
 	help = "path to where the face cascade resides")
 ap.add_argument("-e", "--encodings", required=True,
 	help="path to serialized db of facial encodings")
+ap.add_argument("-C", "--candidate", required=True,
+	help = "index number of the potential candidate")
 args = vars(ap.parse_args())
 
 # load the known faces and embeddings along with OpenCV's Haar
@@ -24,19 +27,17 @@ args = vars(ap.parse_args())
 print("[INFO] loading encodings + face detector...")
 data = pickle.loads(open(args["encodings"], "rb").read())
 
-# phase part
-#print("data: \n")
-#print(data)
-
-#phase_indexes = [0, 7, 9]
-#data_phase_indexed = [data["names"][i] for i in phase_indexes]
-#print("[names] with ")
-#print(phase_indexes)
-#print(" indexes: ")
-#print(data_phase_indexed)
-# phase part ends
-
 detector = cv2.CascadeClassifier(args["cascade"])
+
+# stay here until tenant's rfid/id is received
+#print("sys.argv[1] = " + sys.argv[1])
+#print("sys.argv[2] = " + sys.argv[2])
+#print("sys.argv[3] = " + sys.argv[3])
+#print("sys.argv[4] = " + sys.argv[4])
+#print("sys.argv[5] = " + sys.argv[5])
+#print("sys.argv[6] = " + sys.argv[6])
+# while sys.argv[1] < 1:
+
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
@@ -47,11 +48,35 @@ time.sleep(2.0)
 # start the FPS counter
 fps = FPS().start()
 
-## MOCK IDs for list of tenants
+## IDs for list of tenants
 
-phase_id = [7, 8, 9, 10, 11, 12, 13, 14]
-tai_id = [0, 1, 2, 3, 4, 5, 6]
+phuc_id = [i for i in range(0, 7)]
+kha_id = [i for i in range(7, 14)]
+ian_malcolm_id = [i for i in range(14, 21)]
+phase_id = [i for i in range(21, 29)]
+linh_id = [i for i in range(29, 39)]
+nhat_id = [i for i in range(39, 45)]
 
+candidate = []
+
+if sys.argv[6] == "1":
+	candidate = phuc_id
+	print("candidate: Phuc")
+elif sys.argv[6] == "2":
+	candidate = kha_id
+	print("candidate: Kha")
+elif sys.argv[6] == "3":
+	candidate = ian_malcolm_id
+	print("candidate: ian_malcolm")
+elif sys.argv[6] == "4":
+	candidate = phase_id
+	print("candidate: Phase")
+elif sys.argv[6] == "5":
+	candidate = linh_id
+	print("candidate: Linh")
+elif sys.argv[6] == "6":
+	candidate = nhat_id
+	print("candidate: Nhat")
 ##
 
 
@@ -81,41 +106,16 @@ while True:
 
 	# compute the facial embeddings for each face bounding box in the image
 	encodings = face_recognition.face_encodings(rgb, boxes)
+	customized_encodings = [data["encodings"][i] for i in candidate]
+
 	names = []
 
-	# phase part
-	# print("encodings: \n")
-	# print(encodings)
-	# print("\n")
-
-	# print("names: \n")
-	# print(names)
-	# print("\n")
-	# phase part ends
-
-	# loop over the facial embeddings
-	# phase part
-	dem = 0
-	# phase part ends
 	for encoding in encodings:
-		# phase part
-		dem = dem + 1
-		print(dem)
-		# phase part ends
-
-		# attempt to match each face in the input image to our known
-		# encodings
-
-		customized_encodings = [data["encodings"][i] for i in phase_id]
 		matches = face_recognition.compare_faces(customized_encodings, encoding)
 
 #		matches = face_recognition.compare_faces(data["encodings"],
 #			encoding)
 		name = "Unknown"
-
-		print("matches:::\n")
-		print(matches)
-		print("\n\n")
 
 		# check to see if we have found a match
 		if True in matches:
@@ -124,19 +124,24 @@ while True:
 			# was matched
 			matchedIdxs = [i for (i, b) in enumerate(matches) if b]
 			counts = {}
-			print("matchedIdxs::")
+			print("\nmatched indexes compared to customized_encodings:")
 			print(matchedIdxs)
-			print("\n\n")
 			# loop over the matched indexes and maintain a count for
 			# each recognized face face
 			for i in matchedIdxs:
-				name = data["names"][i]
+				name = data["names"][i+candidate[0]]
 				counts[name] = counts.get(name, 0) + 1
 
 			# determine the recognized face with the largest number
 			# of votes (note: in the event of an unlikely tie Python
 			# will select first entry in the dictionary)
-			name = max(counts, key=counts.get)
+
+			print("dictionary counts: ")
+			print(counts)
+
+			if counts[name] < ((candidate[-1] - candidate[0] + 1) / 2):
+				name = "Unknown"
+#			name = max(counts, key=counts.get)
 		
 		# update the list of names
 		names.append(name)
@@ -154,6 +159,14 @@ while True:
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
 
+	if name != "Unknown":
+		print("Step 2 Granted!")
+	else:
+		print("Step 2 Denied!")
+	time.sleep(2)
+	vs.stop()
+	cv2.destroyAllWindows()
+	exit()
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
 		break
@@ -163,8 +176,8 @@ while True:
 
 # stop the timer and display FPS information
 fps.stop()
-print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
-print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+#print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
+#print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 # do a bit of cleanup
 cv2.destroyAllWindows()
