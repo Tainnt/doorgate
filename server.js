@@ -45,10 +45,18 @@ server.listen(8080, function () {
         let open = result.open_time.split(':');
         let close = result.close_time.split(':');
 
-        let data = {'hour':open[0],'minute':open[1],'command':'open'};
+        let data = {
+            'hour': open[0],
+            'minute': open[1],
+            'command': 'open'
+        };
         setAlarm(data);
 
-        data = {'hour':close[0],'minute':close[1],'command':'close'};
+        data = {
+            'hour': close[0],
+            'minute': close[1],
+            'command': 'close'
+        };
         setAlarm(data);
     });
 });
@@ -168,7 +176,7 @@ io.on('connection', function (socket) {
     socket.on('readTag', function (data) {
         console.log('read tag: ' + data.uid);
         db.validateKey(data.uid, function (isGranted) {
-            let command = 'stop';
+            var command = 'stop';
             if (isGranted) {
                 io.emit('updateConsole', {
                     text: data.uid + ' granted'
@@ -182,21 +190,19 @@ io.on('connection', function (socket) {
 
                     pyshell.PythonShell.run('pi_face_recognition.py', options, function (err, py) {
                         if (err) throw err;
-			console.log('length: ', py.length);
+                        console.log('length: ', py.length);
                         console.log('results: ', py);
-                        if(py[py.length-1] == "Step 2 Granted!"){
+                        if (py[py.length - 1] == "Step 2 Granted!") {
                             io.emit('updateConsole', {
                                 text: 'face recognition CORRECT'
                             });
                             command = 'open';
-                        }
-                        else if(py[py.length] == "Step 2 Denied!"){
+                        } else if (py[py.length] == "Step 2 Denied!") {
                             io.emit('updateConsole', {
                                 text: 'face recognition UNCORRECT'
                             });
                             command = 'stop';
-                        }
-                        else{
+                        } else {
                             io.emit('updateConsole', {
                                 text: 'ERROR'
                             });
