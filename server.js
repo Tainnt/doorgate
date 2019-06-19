@@ -8,8 +8,20 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var router = require('./router');
 var db = require('./database');
+
 var spawn = require('child_process').spawn;
 var py = spawn('python', ['test.py']);
+
+var pyshell = require('python-shell');
+var options = {
+    mode: 'text',
+    args: ['--cascade haarcascade_frontalface_default.xml', '--encodings encodings.pickle', '--candidate 4']
+};
+
+// pyshell.PythonShell.run('script.py', options, function (err, results) {
+//     if (err) throw err;
+//     console.log('results', results);
+// });
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
@@ -244,14 +256,13 @@ io.on('connection', function (socket) {
 
     socket.on('insertTag', function (data) {
         console.log('insert tag: ' + data.uid);
-        db.findKey(data.uid,function (result) {
-            if(!result){
+        db.findKey(data.uid, function (result) {
+            if (!result) {
                 db.insertKey(data.uid);
                 io.emit('updateConsole', {
                     text: data.uid + ' insert db succesful'
                 });
-            }
-            else{
+            } else {
                 io.emit('updateConsole', {
                     text: data.uid + ' already exists in the database'
                 });
@@ -269,16 +280,22 @@ io.on('connection', function (socket) {
 
     socket.on('test', function (data) {
         if (data.type == 'run') {
-            var process = spawn('python', ["./pi_face_recognition.py",
-                data.para
-            ]);
+            // var process = spawn('python', ["./pi_face_recognition.py",
+            //     data.para
+            // ]);
 
-            process.stdout.on('data', function (data) {
-                // console.log('data from python file:', data.toString());
-                io.emit('updateConsole', {
-                    text: data.toString()
-                });
+            // process.stdout.on('data', function (data) {
+            //     // console.log('data from python file:', data.toString());
+            //     io.emit('updateConsole', {
+            //         text: data.toString()
+            //     });
+            // });
+
+            pyshell.PythonShell.run('pi_face_recognition.py', options, function (err, results) {
+                if (err) throw err;
+                console.log('results', results);
             });
+            
         } else if (data.type == 'test') {
             var process = spawn('python', ["./test.py",
                 data.para
