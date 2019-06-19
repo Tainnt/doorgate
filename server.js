@@ -196,17 +196,17 @@ io.on('connection', function (socket) {
                             io.emit('updateConsole', {
                                 text: 'face recognition CORRECT'
                             });
-                            command = 'open';
+                            commandToEsp = 'open';
                         } else if (py[py.length] == "Step 2 Denied!") {
                             io.emit('updateConsole', {
                                 text: 'face recognition UNCORRECT'
                             });
-                            command = 'stop';
+                            commandToEsp = 'stop';
                         } else {
                             io.emit('updateConsole', {
                                 text: 'ERROR'
                             });
-                            command = 'stop';
+                            commandToEsp = 'stop';
                         }
                     });
                 });
@@ -215,12 +215,13 @@ io.on('connection', function (socket) {
                 io.emit('updateConsole', {
                     text: data.uid + ' denied'
                 });
-                command = 'stop';
+                commandToEsp = 'stop';
             }
-            io.emit('cmdToEsp', command);
-            db.updateDoorState(command);
+            console.log('commandToEsp :', commandToEsp);
+            io.emit('cmdToEsp', commandToEsp);
+            db.updateDoorState(commandToEsp);
             io.emit('updateDoorState', {
-                state: command
+                state: commandToEsp
             });
         });
     });
