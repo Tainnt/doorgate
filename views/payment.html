@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Database viewer</title>
+	<title>Monthly payment</title>
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" />
@@ -16,7 +16,7 @@
 
 	<!-- Custom styles for this template -->
 	<link rel="stylesheet" href="/css/simple-sidebar.css">
-	<link rel="stylesheet" type="text/css" href="/css/dbViewer.css">
+	<link rel="stylesheet" type="text/css" href="/css/payment.css">
 
 </head>
 
@@ -62,7 +62,7 @@
 							<div class="row">
 								<div class="col-md-4">
 									<div class="form-group mt-1">
-										<input class="form-control" type="search" placeholder="Tenant name"
+										<input class="form-control" type="search" placeholder="Room number"
 											aria-label="Search" id="search-input">
 									</div>
 								</div>
@@ -71,54 +71,98 @@
 						<div class="card-body">
 							<form>
 								<div class="row">
-									<div class="col-md-6 pr-1">
+									<div class="col-md-8">
 										<div class="form-group">
-											<label>Name</label>
-											<input type="text" class="form-control" value=""  id="txbName">
-										</div>
-									</div>
-									<div class="col-md-6 pl-1">
-										<div class="form-group">
-											<label>Phone</label>
-											<input type="text" class="form-control" value="" id="txbPhone">
+											<label class="red-label" id="curMon">Current month</label>
 										</div>
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-6 pr-1">
+									<div class="col-md-4 pr-1">
 										<div class="form-group">
-											<label>Room number</label>
-											<input type="text" class="form-control" value="" id="txbRoomNumber">
+											<label>Electric</label>
+											<input type="text" class="form-control" value="" id="txbCurElc" readonly="readonly">
 										</div>
 									</div>
-									<div class="col-md-6 pl-1">
+									<div class="col-md-4 pl-1">
 										<div class="form-group">
-											<label>RFID</label>
-											<input type="text" class="form-control" value="" id="txbRfid">
+											<label>Water</label>
+											<input type="text" class="form-control" value="" id="txbCurWtr" readonly="readonly">
+										</div>
+									</div>
+									<div class="col-md-4 pl-1">
+										<div class="form-group">
+											<label>Date modified</label>
+											<input type="text" class="form-control" value="" id="txbCurMdf" readonly="readonly">
+										</div>
+									</div>
+								</div>
+							</form>
+							<form>
+								<div class="row">
+									<div class="col-md-8">
+										<div class="form-group">
+											<label class="red-label" id="preMon">Previous month</label>
 										</div>
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-6 pr-1">
+									<div class="col-md-4 pr-1">
 										<div class="form-group">
-											<label>Password</label>
-											<input type="text" class="form-control" value="" id="txbPassword">
+											<label>Electric</label>
+											<input type="text" class="form-control" value="""  id="txbPreElc" readonly="readonly">
 										</div>
 									</div>
-									<div class="col-md-6 pl-1">
+									<div class="col-md-4 pl-1">
 										<div class="form-group">
-											<label>Flash address</label>
-											<input type="text" class="form-control" value="" id="txbFlashAddress">
+											<label>Water</label>
+											<input type="text" class="form-control" value="" id="txbPreWtr" readonly="readonly">
+										</div>
+									</div>
+									<div class="col-md-4 pl-1">
+										<div class="form-group">
+											<label>Date modified</label>
+											<input type="text" class="form-control" value="" id="txbPreMdf" readonly="readonly">
+										</div>
+									</div>
+								</div>
+							</form>
+							<form>
+								<div class="row">
+									<div class="col-md-8">
+										<div class="form-group">
+											<label class="red-label">Payment</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4 pr-1">
+										<div class="form-group">
+											<label>Room charge</label>
+											<input type="text" class="form-control" value="""  id="txbRoomCharge">
+										</div>
+									</div>
+									<div class="col-md-4 pl-1">
+										<div class="form-group">
+											<label>Total charge</label>
+											<input type="text" class="form-control" value="" id="txbTotalCharge">
+										</div>
+									</div>
+									<div class="col-md-4 pl-1">
+										<div class="form-group">
+											<label>Date Confirmed</label>
+											<input type="text" class="form-control" value="" id="txbDtCfm" readonly="readonly">
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="ml-auto mr-auto">
-										<button class="my-btn" id="btnUpdate">Update Profile</button>
+										<button class="my-btn" id="btnConfirm">Confirm</button>
 									</div>
 								</div>
 							</form>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -135,7 +179,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-	<script src="/js/dbViewer.js"></script>
+	<script src="/js/payment.js"></script>
 </body>
 
 </html>

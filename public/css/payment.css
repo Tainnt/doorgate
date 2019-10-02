@@ -59,3 +59,7 @@ input[type=search]::-webkit-search-cancel-button {
 .my-btn:hover {
   background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 51%, #00c6ff 100%)
 }
+
+.red-label{
+  color: red;
+}

@@ -1,5 +1,5 @@
 let host = $(location).attr('hostname');
-let port = 8080;
+let port = $(location).attr('port');
 
 let socket = io.connect(host + ':' + port);
 let label;
@@ -28,9 +28,9 @@ function toasterOptions() {
 
 $(document).ready(function () {
     toasterOptions();
-    socket.emit('getTenantField', {});
     label = $('.form-group').find('label');
     field = $('.form-group').find('input');
+    $('#wrapper').toggleClass("toggled");
 });
 
 $('#logout').on('click', function () {
@@ -49,46 +49,34 @@ $('#search-input').bind('keypress', function (e) {
 });
 
 socket.on('updateDBViewer', function (data) {
-    switch (data.type) {
-        case 'data':
-            if (data.argument != null) {
-                toastr.success('Get tenant profile successful');
-                $('#txbName').val(data.argument.name);
-                $('#txbPhone').val(data.argument.phone);
-                $('#txbAvatar').val(data.argument.avatar);
-                $('#txbRfid').val(data.argument.rfid);
-                $('#txbPassword').val(data.argument.password);
-                $('#txbFlashAddress').val(data.argument.flash_address);
-            } else {
-                toastr.error('Can not find tenant');
-                $('#txbName').val('');
-                $('#txbPhone').val('');
-                $('#txbAvatar').val('');
-                $('#txbRfid').val('');
-                $('#txbPassword').val('');
-                $('#txbFlashAddress').val('');
-            }
-            break;
-        case 'length':
-            for (var i = 0; i < data.argument.length; i++) {
-                $(label[i]).append(' [length: ' + data.argument[i].len + ']');
-                labelLen[i] = data.argument[i].len;
-            }
-            break;
+    if (data.argument != null) {
+        toastr.success('Get tenant profile successful');
+        $('#txbName').val(data.argument.name);
+        $('#txbPhone').val(data.argument.phone);
+        $('#txbRoomNumber').val(data.argument.room_number);
+        $('#txbRfid').val(data.argument.rfid);
+        $('#txbPassword').val(data.argument.password);
+        $('#txbFlashAddress').val(data.argument.flash_address);
+    } else {
+        toastr.error('Can not find tenant');
+        $('#txbName').val('');
+        $('#txbPhone').val('');
+        $('#txbRoomNumber').val('');
+        $('#txbRfid').val('');
+        $('#txbPassword').val('');
+        $('#txbFlashAddress').val('');
     }
 });
 
 $('#btnMenu').click(function (e) {
     e.preventDefault();
-    // $('#wrapper').toggleClass('toggled');
-    console.log('field :');
-    $(field[0]).val('abc');
+    $('#wrapper').toggleClass('toggled');
 });
 
 function checkField() {
     if ($('#txbName').val() == '' ||
         $('#txbPhone').val() == '' ||
-        $('#txbAvatar').val() == '' ||
+        $('#txbRoomNumber').val() == '' ||
         $('#txbRfid').val() == '' ||
         $('#txbPassword').val() == '' ||
         $('#txbFlashAddress').val() == '') {
@@ -106,4 +94,8 @@ $('#btnUpdate').click(function (e) {
     } else if (checkField() == 'success') {
         toastr.success('Update profile successful');
     }
+});
+
+socket.on('androidLoginState', function (data) {
+    console.log('data :', data);
 });

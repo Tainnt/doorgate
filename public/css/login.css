@@ -168,7 +168,7 @@ iframe {
 .login100-form-title {
   font-family: Ubuntu-Bold;
   font-size: 30px;
-  color: #403866;
+  color: #5eb9ff;
   line-height: 1.2;
   text-transform: uppercase;
   text-align: center;
@@ -409,6 +409,40 @@ iframe {
 .alert-validate:hover:before {
   visibility: visible;
   opacity: 1;
+}
+
+.my-btn {
+  font-family: Ubuntu-Regular;
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.2;
+  text-transform: uppercase;
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  height: 62px;
+  /* border-radius: 10px; */
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+
+  background-image: linear-gradient(to right, #56CCF2 0%, #2F80ED 51%, #56CCF2 100%)
+}
+
+.my-btn:hover {
+  background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 51%, #00c6ff 100%)
+}
+
+#lbLogin{
 }
 
 @media (max-width: 992px) {

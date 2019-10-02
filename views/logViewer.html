@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Database viewer</title>
+	<title>Log viewer</title>
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" />
@@ -16,7 +16,7 @@
 
 	<!-- Custom styles for this template -->
 	<link rel="stylesheet" href="/css/simple-sidebar.css">
-	<link rel="stylesheet" type="text/css" href="/css/dbViewer.css">
+	<link rel="stylesheet" type="text/css" href="/css/logViewer.css">
 
 </head>
 
@@ -25,7 +25,7 @@
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar -->
 		<div class="bg-light border-right" id="sidebar-wrapper">
-			<div class="sidebar-heading">Doorgate </div>
+			<div class="sidebar-heading">Doorgate</div>
 			<div class="list-group list-group-flush">
 				<a href="/doorController" class="list-group-item list-group-item-action bg-light">Door controller</a>
 				<a href="/setting" class="list-group-item list-group-item-action bg-light">Door setting</a>
@@ -40,7 +40,6 @@
 		<div id="page-content-wrapper">
 			<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
 				<button class="btn" id="btnMenu">Menu</button>
-
 				<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 					aria-label="Toggle navigation">
@@ -55,73 +54,46 @@
 					</ul>
 				</div>
 			</nav>
-			<div class="container-fluid mt-2">
-				<div class="col-md-14">
-					<div class="card card-user">
-						<div class="card-header">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="form-group mt-1">
-										<input class="form-control" type="search" placeholder="Tenant name"
-											aria-label="Search" id="search-input">
-									</div>
-								</div>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="btn-group">
+							<button type="button" class="btn btn-secondary" disabled>State: </button>
+							<button class="btn btn-secondary dropdown-toggle" type="button" id="doorState"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+								value="All">All</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+								<button class="dropdown-item" type="button" value="All">All</button>
+								<button class="dropdown-item" type="button" value="Open by automatic">Open by
+									automatic</button>
+								<button class="dropdown-item" type="button" value="Open by manual">Open by
+									manual</button>
+								<button class="dropdown-item" type="button" value="Open by validate in">Open by validate
+									in</button>
+								<button class="dropdown-item" type="button" value="Open by validate out">Open by
+									validate out</button>
+								<button class="dropdown-item" type="button" value="Close by automatic">Close by
+									automatic</button>
+								<button class="dropdown-item" type="button" value="Close by manual">Close by
+									manual</button>
+								<button class="dropdown-item" type="button" value="Stop by invalid id">Stop by invalid
+									id</button>
+								<button class="dropdown-item" type="button" value="Stop by obstacl">Stop by
+									obstacl</button>
+								<button class="dropdown-item" type="button" value="Stop by manual">Stop by
+									manual</button>
 							</div>
 						</div>
-						<div class="card-body">
-							<form>
-								<div class="row">
-									<div class="col-md-6 pr-1">
-										<div class="form-group">
-											<label>Name</label>
-											<input type="text" class="form-control" value=""  id="txbName">
-										</div>
-									</div>
-									<div class="col-md-6 pl-1">
-										<div class="form-group">
-											<label>Phone</label>
-											<input type="text" class="form-control" value="" id="txbPhone">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-6 pr-1">
-										<div class="form-group">
-											<label>Room number</label>
-											<input type="text" class="form-control" value="" id="txbRoomNumber">
-										</div>
-									</div>
-									<div class="col-md-6 pl-1">
-										<div class="form-group">
-											<label>RFID</label>
-											<input type="text" class="form-control" value="" id="txbRfid">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-6 pr-1">
-										<div class="form-group">
-											<label>Password</label>
-											<input type="text" class="form-control" value="" id="txbPassword">
-										</div>
-									</div>
-									<div class="col-md-6 pl-1">
-										<div class="form-group">
-											<label>Flash address</label>
-											<input type="text" class="form-control" value="" id="txbFlashAddress">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="ml-auto mr-auto">
-										<button class="my-btn" id="btnUpdate">Update Profile</button>
-									</div>
-								</div>
-							</form>
-						</div>
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-secondary" type="button" id="btnSearch">Search</button>
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-secondary" type="button" id="btnClear">Clear</button>
 					</div>
 				</div>
 			</div>
+			<textarea class="form-control" id="textarea" disabled></textarea>
 		</div>
 		<!-- /#page-content-wrapper -->
 
@@ -135,7 +107,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-	<script src="/js/dbViewer.js"></script>
+	<script src="/js/logViewer.js"></script>
 </body>
 
 </html>

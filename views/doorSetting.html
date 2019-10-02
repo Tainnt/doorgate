@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Door setting</title>
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" href="/css/simple-sidebar.css">
+	<link rel="stylesheet" type="text/css" href="/css/doorSetting.css">
+
+</head>
+
+<body>
+
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar -->
+		<div class="bg-light border-right" id="sidebar-wrapper">
+			<div class="sidebar-heading">Doorgate </div>
+			<div class="list-group list-group-flush">
+				<a href="/doorController" class="list-group-item list-group-item-action bg-light">Door controller</a>
+				<a href="/setting" class="list-group-item list-group-item-action bg-light">Door setting</a>
+				<a href="/log" class="list-group-item list-group-item-action bg-light">Log viewer</a>
+				<a href="/dbViewer" class="list-group-item list-group-item-action bg-light">Database viewer</a>
+				<a href="/payment" class="list-group-item list-group-item-action bg-light">Monthly payment</a>
+			</div>
+		</div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+				<button class="btn" id="btnMenu">Menu</button>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<button class="btn btn-danger" id="logout" value="logout">Logout</button>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<!-- <div class="col-md-12 container-fluid">
+				<div class="input-group">
+					<button type="button" class="col-md-2 btn btn-secondary" disabled>Time to open door</button>
+					<input type="number" class="form-control" placeholder="Hour" id="hOpen">
+					<input type="number" class="form-control" placeholder="Minute" id="mOpen">
+					<button type="button" class="col-md-2 my-btn" value="setOpenTime">Set</button>
+					<button type="button" class="col-md-2 my-btn" value="reloadOpenTime">Reload</button>
+				</div>
+			</div>
+			<div class="col-md-12 container-fluid">
+				<div class="input-group">
+					<button type="button" class="col-md-2 btn btn-secondary" disabled>Time to close door</button>
+					<input type="number" class="form-control" placeholder="Hour" id="hClose">
+					<input type="number" class="form-control" placeholder="Minute" id="mClose">
+					<button type="button" class="col-md-2 my-btn" value="setCloseTime">Set</button>
+					<button type="button" class="col-md-2 my-btn" value="reloadCloseTime">Reload</button>
+				</div>
+			</div> -->
+			<!-- <div class="col-md-12 container-fluid">
+				<div class="input-group">
+					<button type="button" class="col-md-2 btn btn-secondary" disabled>Time to turn on camera </button>
+					<input type="number" class="form-control" placeholder="Hour" id="hTurnOn">
+					<input type="number" class="form-control" placeholder="Minute" id="mTurnOn">
+					<button type="button" class="col-md-2 my-btn" value="setOnTime">Set</button>
+					<button type="button" class="col-md-2 my-btn" value="reloadOnTime">Reload</button>
+				</div>
+			</div>
+			<div class="col-md-12 container-fluid">
+				<div class="input-group">
+					<button type="button" class="col-md-2 btn btn-secondary" disabled>Time to turn off camera</button>
+					<input type="number" class="form-control" placeholder="Hour" id="hTurnOff">
+					<input type="number" class="form-control" placeholder="Minute" id="mTurnOff">
+					<button type="button" class="col-md-2 my-btn" value="setOffTime">Set</button>
+					<button type="button" class="col-md-2 my-btn" value="reloadOffTime">Reload</button>
+				</div>
+			</div> -->
+
+			<div class="container-fluid mt-2">
+				<div class="col-md-14">
+					<div class="card card-user">
+						<div class="card-header">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="btn-group">
+										<button type="button" class="btn btn-secondary" disabled>Time to take snapshot:
+										</button>
+										<button class="btn btn-secondary dropdown-toggle" type="button" id="snapshotTime"
+											data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+											value="1">Every 1
+											hour</button>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+											<button class="dropdown-item snapshot" type="button" value="1">Every 1 hour</button>
+											<button class="dropdown-item snapshot" type="button" value="2">Every 2 hour</button>
+											<button class="dropdown-item snapshot" type="button" value="3">Every 3 hour</button>
+											<button class="dropdown-item snapshot" type="button" value="4">Every 4 hour</button>
+											<button class="dropdown-item snapshot" type="button" value="5">Every 5 hour</button>
+											<button class="dropdown-item snapshot" type="button" value="6">Every 6 hour</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="btn-group">
+										<button type="button" class="btn btn-secondary" disabled>Authentication mode:
+										</button>
+										<button class="btn btn-secondary dropdown-toggle" type="button" id="validateMode"
+											data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+											value="R_F">RFID and Face Recognition</button>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+											<button class="dropdown-item validate" type="button" value="O_R">Only RFID</button>
+											<button class="dropdown-item validate" type="button" value="O_F">Only Face Recognition</button>
+											<button class="dropdown-item validate" type="button" value="R_F">RFID and Face Recognition</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card-body">
+							<form>
+								<div class="row">
+									<div class="col-md-3 pr-1">
+										<div class="form-group">
+											<label>Time to open door</label>
+											<input type="text" class="form-control" placeholder="Hour" value=""
+												id="hOpen">
+										</div>
+									</div>
+									<div class="col-md-3 pl-1">
+										<div class="form-group">
+											<label>
+												<p></p>
+											</label>
+											<input type="text" class="form-control" placeholder="Minute" value=""
+												id="mOpen">
+										</div>
+									</div>
+									<div class="col-md-3 pl-1">
+										<div class="form-group">
+											<label>Time to close door</label>
+											<input type="text" class="form-control" placeholder="Hour" value=""
+												id="hClose">
+										</div>
+									</div>
+									<div class="col-md-3 pl-1">
+										<div class="form-group">
+											<label>
+												<p></p>
+											</label>
+											<input type="text" class="form-control" placeholder="Minute" value=""
+												id="mClose">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3 pr-1">
+										<div class="form-group">
+											<label>Time to turn on camera</label>
+											<input type="text" class="form-control" placeholder="Hour" value=""
+												id="hTurnOn">
+										</div>
+									</div>
+									<div class="col-md-3 pl-1">
+										<div class="form-group">
+											<label>
+												<p></p>
+											</label>
+											<input type="text" class="form-control" placeholder="Minute" value=""
+												id="mTurnOn">
+										</div>
+									</div>
+									<div class="col-md-3 pl-1">
+										<div class="form-group">
+											<label>Time to turn off camera</label>
+											<input type="text" class="form-control" placeholder="Hour" value=""
+												id="hTurnOff">
+										</div>
+									</div>
+									<div class="col-md-3 pl-1">
+										<div class="form-group">
+											<label>
+												<p></p>
+											</label>
+											<input type="text" class="form-control" placeholder="Minute" value=""
+												id="mTurnOff">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6 pl-1">
+										<button class="my-btn" id="btnSave">Save</button>
+									</div>
+									<div class="col-md-6 pl-1">
+										<button class="my-btn" id="btnReload">Reload</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 container-fluid">
+				<div class="input-group">
+					<input type="number" class="form-control" placeholder="parameter" id="txtParameter">
+					<button type="button" class="col-md-4 my-btn" id="btnRun">RUN PYTHON</button>
+					<button type="button" class="col-md-4 my-btn" id="btnTest">RUN TEST</button>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+	<script src="/js/doorSetting.js"></script>
+</body>
+
+</html>

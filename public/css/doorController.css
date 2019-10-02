@@ -2,30 +2,33 @@
 [ FONT ]*/
 @font-face {
   font-family: Ubuntu-Regular;
-  src: url('../fonts/ubuntu/Ubuntu-Regular.ttf');
+  src: url('../fonts/ubuntu/Ubuntu-Regular.ttf'); 
 }
 
 @font-face {
   font-family: Ubuntu-Bold;
-  src: url('../fonts/ubuntu/Ubuntu-Bold.ttf');
+  src: url('../fonts/ubuntu/Ubuntu-Bold.ttf'); 
 }
 
 /*//////////////////////////////////////////////////////////////////
-  [ RESTYLE TAG ]*/
+[ RESTYLE TAG ]*/
 * {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
+	margin: 0px; 
+	padding: 0px; 
+	box-sizing: border-box;
 }
 
-body,
-html {
-  height: 100%;
-  font-family: sans-serif;
+body, html {
+	height: 100%;
+	font-family: sans-serif;
 }
 
-input[type=search]::-webkit-search-cancel-button {
-  -webkit-appearance: searchfield-cancel-button;
+/* ------------------------------------ */
+textarea {
+  display: block;
+  outline: none;
+  height: 70%;
+  resize: none;
 }
 
 .my-btn {
@@ -59,3 +62,12 @@ input[type=search]::-webkit-search-cancel-button {
 .my-btn:hover {
   background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 51%, #00c6ff 100%)
 }
+
+#doorState{
+  size: 40px;
+  color: blue;
+  font-weight: bold;
+}
+
+
+

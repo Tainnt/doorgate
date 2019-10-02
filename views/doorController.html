@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Monitor</title>
+	<title>Door controller</title>
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css"/>
@@ -16,7 +16,7 @@
 
 	<!-- Custom styles for this template -->
 	<link rel="stylesheet" href="/css/simple-sidebar.css">
-	<link rel="stylesheet" type="text/css" href="/css/monitor.css">
+	<link rel="stylesheet" type="text/css" href="/css/doorController.css">
 
 </head>
 
@@ -25,10 +25,13 @@
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar -->
 		<div class="bg-light border-right" id="sidebar-wrapper">
-			<div class="sidebar-heading">Door Gate </div>
+			<div class="sidebar-heading">Doorgate </div>
 			<div class="list-group list-group-flush">
-				<a href="/monitor" class="list-group-item list-group-item-action bg-light">Monitor</a>
-				<a href="/dbviewer" class="list-group-item list-group-item-action bg-light">Database viewer</a>
+				<a href="/doorController" class="list-group-item list-group-item-action bg-light">Door controller</a>
+				<a href="/setting" class="list-group-item list-group-item-action bg-light">Door setting</a>
+				<a href="/log" class="list-group-item list-group-item-action bg-light">Log viewer</a>
+				<a href="/dbViewer" class="list-group-item list-group-item-action bg-light">Database viewer</a>
+				<a href="/payment" class="list-group-item list-group-item-action bg-light">Monthly payment</a>
 			</div>
 		</div>
 		<!-- /#sidebar-wrapper -->
@@ -66,28 +69,6 @@
 					<button type="button" class="col-md-4 my-btn" value="stop">Stop</button>
 				</div>
 			</div>
-			<div class="col-md-4 container-fluid">
-				<div class="input-group">
-					<input type="number" class="form-control" placeholder="Hour" id="hourOpen">
-					<input type="number" class="form-control" placeholder="Minute" id="minuteOpen">
-					<button type="button" class="col-md-4 my-btn" value="setOpenTime">Set time to open</button>
-
-				</div>
-			</div>
-			<div class="col-md-4 container-fluid">
-				<div class="input-group">
-					<input type="number" class="form-control" placeholder="Hour" id="hourClose">
-					<input type="number" class="form-control" placeholder="Minute" id="minuteClose">
-					<button type="button" class="col-md-4 my-btn" value="setCloseTime">Set time to close</button>
-				</div>
-			</div>
-			<div class="col-md-12 container-fluid">
-				<div class="input-group">
-					<input type="number" class="form-control" placeholder="parameter" id="txtParameter">
-					<button type="button" class="col-md-4 my-btn" id="btnRun">RUN PYTHON</button>
-					<button type="button" class="col-md-4 my-btn" id="btnTest">RUN TEST</button>
-				</div>
-			</div>
 		</div>
 		<!-- /#page-content-wrapper -->
 
@@ -101,7 +82,7 @@
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-	<script src="/js/monitor.js"></script>
+	<script src="/js/doorController.js"></script>
 </body>
 
 </html>

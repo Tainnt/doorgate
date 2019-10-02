@@ -3,33 +3,47 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
     // console.log('req.session.id: ' + req.sessionID);
-    if (req.session.pageIndex == 'dashboard')
-        res.redirect('/dashboard');
-    else
-        res.sendFile(__dirname + '/views/login.html');
+    res.sendFile(__dirname + '/views/login.html');
 });
 
-router.get('/dashboard', function (req, res) {
-    // if (req.session.pageIndex == 'dashboard')
+router.get('/log', function (req, res) {
+    // if (req.session.pageIndex == 'log')
     if (1)
-        res.sendFile(__dirname + '/views/dashboard.html');
+        res.sendFile(__dirname + '/views/logViewer.html');
     else
         res.redirect('/');
 });
 
-router.get('/dbviewer', function (req, res) {
-    // if (req.session.pageIndex == 'monitor')
+router.get('/setting', function (req, res) {
+    // if (req.session.pageIndex == 'setting')
     if (1)
-        res.sendFile(__dirname + '/views/dbviewer.html');
+        res.sendFile(__dirname + '/views/doorSetting.html');
     else
         res.redirect('/');
 });
 
-router.get('/monitor', function (req, res) {
+router.get('/dbViewer', function (req, res) {
+    // if (req.session.pageIndex == 'doorController')
+    if (1)
+        res.sendFile(__dirname + '/views/dbViewer.html');
+    else
+        res.redirect('/');
+});
+
+router.get('/doorController', function (req, res) {
     // console.log('req.session.id: ' + req.session.id);
-    // if (req.session.pageIndex == 'monitor')
+    // if (req.session.pageIndex == 'doorController')
     if (1)
-        res.sendFile(__dirname + '/views/monitor.html');
+        res.sendFile(__dirname + '/views/doorController.html');
+    else
+        res.redirect('/');
+});
+
+router.get('/payment', function (req, res) {
+    // console.log('req.session.id: ' + req.session.id);
+    // if (req.session.pageIndex == 'payment')
+    if (1)
+        res.sendFile(__dirname + '/views/payment.html');
     else
         res.redirect('/');
 });

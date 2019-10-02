@@ -88,7 +88,7 @@ $('.login100-form-btn').on('click', function () {
                 $('#myModal').modal('show');
                 $('#btnContinue').on('click', function () {
                     setCookie("doorgate", response.id, 365);
-                    window.location = '/monitor';
+                    window.location = '/doorController';
                 });
             } else {
                 $('#btnContinue').attr('class','btn btn-danger');
